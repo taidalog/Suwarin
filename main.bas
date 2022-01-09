@@ -25,14 +25,14 @@ Public Sub MakeSeatingChart()
         Exit Sub
     End If
     
-    Dim skipString As String
-    skipString = "x"
+    Dim stringToSkip As String
+    stringToSkip = "x"
     
     Dim maxAttendeesForEachLine() As Long
-    maxAttendeesForEachLine = DecideSeatArrangement(seats, UBound(attendees, 1), UBound(attendees, 1), skipString)
+    maxAttendeesForEachLine = DecideSeatArrangement(seats, UBound(attendees, 1), UBound(attendees, 1), stringToSkip)
     
-    Call ClearSeatingChart(seats, skipString, True)
-    Call PutAttendeesToSeats(attendees, seats, maxAttendeesForEachLine, skipString)
+    Call ClearSeatingChart(seats, stringToSkip, True)
+    Call PutAttendeesToSeats(attendees, seats, maxAttendeesForEachLine, stringToSkip)
     
     Debug.Print Timer - ST
     
@@ -154,18 +154,18 @@ Private Function GetAttendees(seating_chart_range As Range) As Variant
 End Function
 
 
-Private Function DecideSeatArrangement(seats_range() As Range, number_of_people As Long, number_of_needed_seats As Long, skip_string As String) As Long()
+Private Function DecideSeatArrangement(seats_range() As Range, number_of_people As Long, number_of_needed_seats As Long, string_to_skip As String) As Long()
     
     Dim maxAttendeesForEachLine() As Long
     maxAttendeesForEachLine = DevideNumberEqually(number_of_needed_seats, UBound(seats_range(), 2), UBound(seats_range(), 1))
     
     Dim seatsToSkipCount As Long
-    seatsToSkipCount = CountSeatsToSkip(seats_range, maxAttendeesForEachLine, skip_string)
+    seatsToSkipCount = CountSeatsToSkip(seats_range, maxAttendeesForEachLine, string_to_skip)
     
     If number_of_needed_seats - seatsToSkipCount >= number_of_people Then
         DecideSeatArrangement = maxAttendeesForEachLine
     Else
-        DecideSeatArrangement = DecideSeatArrangement(seats_range, number_of_people, number_of_people + seatsToSkipCount, skip_string)
+        DecideSeatArrangement = DecideSeatArrangement(seats_range, number_of_people, number_of_people + seatsToSkipCount, string_to_skip)
     End If
     
 End Function
@@ -201,7 +201,7 @@ Private Function DevideNumberEqually(number As Long, devide_into As Long, limit 
 End Function
 
 
-Private Function CountSeatsToSkip(seats_range() As Range, max_attendees_for_each_line() As Long, skip_string As String) As Long
+Private Function CountSeatsToSkip(seats_range() As Range, max_attendees_for_each_line() As Long, string_to_skip As String) As Long
     
     Dim seatsToSkipCount As Long
     seatsToSkipCount = 0
@@ -210,7 +210,7 @@ Private Function CountSeatsToSkip(seats_range() As Range, max_attendees_for_each
     For j = 1 To UBound(seats_range, 2)
         Dim i As Long
         For i = 1 To max_attendees_for_each_line(j)
-            If seats_range(i, j).Cells(1, 1).Value = skip_string Then seatsToSkipCount = seatsToSkipCount + 1
+            If seats_range(i, j).Cells(1, 1).Value = string_to_skip Then seatsToSkipCount = seatsToSkipCount + 1
         Next i
     Next j
     
@@ -219,11 +219,11 @@ Private Function CountSeatsToSkip(seats_range() As Range, max_attendees_for_each
 End Function
 
 
-Private Sub ClearSeatingChart(seats_range() As Range, skip_string As String, leave_x As Boolean)
+Private Sub ClearSeatingChart(seats_range() As Range, string_to_skip As String, leave_string_to_skip As Boolean)
     
     Dim ST As Variant
     For Each ST In seats_range
-        If ST.Cells(1, 1).Value <> skip_string Or leave_x = False Then
+        If ST.Cells(1, 1).Value <> string_to_skip Or leave_string_to_skip = False Then
             ST.Cells(1, 1).ClearContents
         End If
     Next ST
@@ -245,18 +245,18 @@ Public Sub CallClearSeatingChart()
     Dim seats() As Range
     seats = GetSeats(topLeftSeatRange, seatingChartRange)
     
-    Dim skipString As String
-    skipString = "x"
+    Dim stringToSkip As String
+    stringToSkip = "x"
     
-    Dim leaveSkipString As Boolean
-    leaveSkipString = MsgBox("Do you want to leave '" & skipString & "'?", vbYesNo) = vbYes
+    Dim leaveStringToSkip As Boolean
+    leaveStringToSkip = MsgBox("Do you want to leave '" & stringToSkip & "'?", vbYesNo) = vbYes
     
-    Call ClearSeatingChart(seats, skipString, leaveSkipString)
+    Call ClearSeatingChart(seats, stringToSkip, leaveStringToSkip)
     
 End Sub
 
 
-Private Sub PutAttendeesToSeats(attendees_array As Variant, seats_range() As Range, max_attendees_for_each_line() As Long, skip_string As String)
+Private Sub PutAttendeesToSeats(attendees_array As Variant, seats_range() As Range, max_attendees_for_each_line() As Long, string_to_skip As String)
     
     Dim n As Long
     n = 1
@@ -266,7 +266,7 @@ Private Sub PutAttendeesToSeats(attendees_array As Variant, seats_range() As Ran
         Dim i As Long
         For i = 1 To max_attendees_for_each_line(j)
             With seats_range(i, j).Cells(1, 1)
-                If .Value <> skip_string Then
+                If .Value <> string_to_skip Then
                     .Value = attendees_array(n, 1)
                     n = n + 1
                 End If
