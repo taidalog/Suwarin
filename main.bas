@@ -249,7 +249,7 @@ Public Sub CallClearSeatingChart()
     skipString = "x"
     
     Dim leaveSkipString As Boolean
-    leaveSkipString = MsgBox("Do you want to keep " & skipString & "?", vbYesNo) = vbYes
+    leaveSkipString = MsgBox("Do you want to leave '" & skipString & "'?", vbYesNo) = vbYes
     
     Call ClearSeatingChart(seats, skipString, leaveSkipString)
     
