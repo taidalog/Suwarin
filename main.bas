@@ -231,6 +231,31 @@ Private Sub ClearSeatingChart(seats_range() As Range, skip_string As String, lea
 End Sub
 
 
+Public Sub CallClearSeatingChart()
+    
+    Dim firstBorderedCell As Range
+    Set firstBorderedCell = GetFirstBorderedCell(ActiveSheet.UsedRange)
+    
+    Dim topLeftSeatRange As Range
+    Set topLeftSeatRange = GetTopLeftSeatRange(firstBorderedCell)
+    
+    Dim seatingChartRange As Range
+    Set seatingChartRange = GetSeatingChartRange(firstBorderedCell)
+    
+    Dim seats() As Range
+    seats = GetSeats(topLeftSeatRange, seatingChartRange)
+    
+    Dim skipString As String
+    skipString = "x"
+    
+    Dim leaveSkipString As Boolean
+    leaveSkipString = MsgBox("Do you want to keep " & skipString & "?", vbYesNo) = vbYes
+    
+    Call ClearSeatingChart(seats, skipString, leaveSkipString)
+    
+End Sub
+
+
 Private Sub PutAttendeesToSeats(attendees_array As Variant, seats_range() As Range, max_attendees_for_each_line() As Long, skip_string As String)
     
     Dim n As Long
@@ -250,5 +275,62 @@ Private Sub PutAttendeesToSeats(attendees_array As Variant, seats_range() As Ran
         Next i
 '        If n > UBound(attendees_array, 1) Then Exit For
     Next j
+    
+End Sub
+
+
+Public Sub CopyActivesheet()
+    
+    Dim copyNumber As Long
+    copyNumber = Application.InputBox("How many copy do you want?", Default:=1, Type:=1)
+    
+    Dim AWS As Worksheet
+    Set AWS = ActiveSheet
+    
+    Dim i As Long
+    For i = 1 To copyNumber
+        AWS.Copy After:=ThisWorkbook.Worksheets(ThisWorkbook.Worksheets.Count)
+    Next i
+    
+    AWS.Select
+    
+End Sub
+
+
+Public Sub AddToContextMenu()
+    
+    With Application.CommandBars
+        
+        Dim i As Long
+        For i = 1 To .Count
+            
+            If .Item(i).Name = "Cell" Then
+                
+                With .Item(i).Controls.Add(Type:=msoControlPopup, Temporary:=True)
+                    .BeginGroup = True
+                    .Caption = "&" & ThisWorkbook.Name
+                    
+                    With .Controls.Add
+                        .Caption = "&Make Seating Chart"
+                        .OnAction = ThisWorkbook.Name & "!" & "MakeSeatingChart"
+                    End With
+                    
+                    With .Controls.Add
+                        .Caption = "&Clear Seating Chart"
+                        .OnAction = ThisWorkbook.Name & "!" & "CallClearSeatingChart"
+                    End With
+                    
+                    With .Controls.Add
+                        .Caption = "C&opy This Worksheet"
+                        .OnAction = ThisWorkbook.Name & "!" & "CopyActivesheet"
+                    End With
+                    
+                End With
+                
+            End If
+            
+        Next i
+        
+    End With
     
 End Sub
