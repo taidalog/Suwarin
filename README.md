@@ -4,6 +4,8 @@ Version 0.9.0
 
 ![SeatingChartMaker](/images/SeatingChartMaker.gif)
 
+[Japanese README](README.ja.md)
+
 ## Table of Contents
 
 1. [Introduction](#Introduction)

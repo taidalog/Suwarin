@@ -4,6 +4,8 @@ Version 0.9.0
 
 ![SeatingChartMaker](/images/SeatingChartMaker.gif)
 
+[English README](README.md)
+
 ## 目次
 
 1. [概要](#%e6%a6%82%e8%a6%81)
