@@ -1,8 +1,8 @@
-# SeatingChartMaker
+# Suwarin
 
 Version 0.9.0
 
-![SeatingChartMaker](/images/SeatingChartMaker.gif)
+![demo](/images/suwarin.gif)
 
 [English README](README.md)
 
@@ -53,7 +53,7 @@ Excel ファイル上で座席表を作成するマクロです。**席替え用
 
 1. 罫線を引いて座席表を作成してください
 1. 参加者を、座席表の2つ右の列に入力してください
-![罫線について](/images/SeatingChartMaker01.png)
+![罫線について](/images/suwarin01.png)
 1. 適当なセルを右クリックして、メニューから操作してください
 
 
@@ -61,16 +61,16 @@ Excel ファイル上で座席表を作成するマクロです。**席替え用
 
 - 座席と座席表の範囲は、罫線で識別しています。以下のように罫線を引いてください。
     - 座席表の外枠に、途切れることなく罫線を引いてください
-    ![罫線について](/images/SeatingChartMaker02.png)
+    ![罫線について](/images/suwarin02.png)
     - 座席表の範囲を越えた余分な罫線を引かないでください
-    ![罫線について](/images/SeatingChartMaker03.png)
+    ![罫線について](/images/suwarin03.png)
     - 座席ひとつひとつは途切れることなく罫線で区切ってください
-    ![罫線について](/images/SeatingChartMaker04.png)
+    ![罫線について](/images/suwarin04.png)
     - 座席内に罫線を引かないでください
     - それぞれの座席の行数や列数を同じにしてください
-    ![罫線について](/images/SeatingChartMaker05.png)
+    ![罫線について](/images/suwarin05.png)
 - 参加者は、座席表の一番右上のセルから、右に2つずれたセルから下に入力してください（そのセルを含む）。座席表の範囲が `B3:M16` だった場合、一番右上は `L3` ですので、その2つ右の `O3` から下、つまり`O3`, `O4`, `O5` ... に入力してください。
-![参加者の入力位置について](/images/SeatingChartMaker01.png)
+![参加者の入力位置について](/images/suwarin01.png)
 - それぞれの座席の一番左上のセルに参加者を入力します。それ以外のセルに対しては一切入力しません。`VLOOKUP` 関数等を入れてお使いください。
 - 座席表は、シート1枚につきひとつのみにしてください。
 
@@ -79,4 +79,4 @@ Excel ファイル上で座席表を作成するマクロです。**席替え用
 
 Copyright 2022 taidalog
 
-SeatingChartMaker is licensed under the MIT License.
+Suwarin is licensed under the MIT License.
