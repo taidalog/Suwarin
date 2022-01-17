@@ -8,31 +8,57 @@ Public Sub MakeSeatingChart()
     Dim firstBorderedCell As Range
     Set firstBorderedCell = GetFirstBorderedCell(ActiveSheet.UsedRange)
     
+    If firstBorderedCell Is Nothing Then
+        MsgBox "First bordered cell was not found."
+        Exit Sub
+    End If
+    
     Dim topLeftSeatRange As Range
     Set topLeftSeatRange = GetTopLeftSeatRange(firstBorderedCell)
+    
+    If topLeftSeatRange Is Nothing Then
+        MsgBox "Top left seat was not found."
+        Exit Sub
+    End If
     
     Dim seatingChartRange As Range
     Set seatingChartRange = GetSeatingChartRange(firstBorderedCell)
     
+    If seatingChartRange Is Nothing Then
+        MsgBox "Seating chart range was not found."
+        Exit Sub
+    End If
+    
     Dim seats() As Range
     seats = GetSeats(topLeftSeatRange, seatingChartRange)
     
-    Dim attendees As Variant
-    attendees = GetAttendees(seatingChartRange)
+    Dim participants As Variant
+    participants = GetParticipants(seatingChartRange)
     
-    If UBound(attendees, 1) > UBound(seats, 1) * UBound(seats, 2) Then
-        MsgBox "Too many people."
+    If IsEmpty(participants) Then
+        MsgBox "Participants were not found."
+        Exit Sub
+    End If
+    
+    If UBound(participants, 1) > UBound(seats, 1) * UBound(seats, 2) Then
+        MsgBox "Participants exceeded seats."
         Exit Sub
     End If
     
     Dim stringToSkip As String
     stringToSkip = "x"
     
-    Dim maxAttendeesForEachLine() As Long
-    maxAttendeesForEachLine = DecideSeatArrangement(seats, UBound(attendees, 1), UBound(attendees, 1), stringToSkip)
+    Dim maxParticipantsForEachLine() As Long
+    maxParticipantsForEachLine = DecideSeatArrangement(seats, UBound(participants, 1), UBound(participants, 1), stringToSkip)
+    
+    ' Judging whether the dynamic array variable is assigned (-1 is "NOT assigned.").
+    If (Not maxParticipantsForEachLine) = -1 Then
+        MsgBox "The number of participants for each line could not be decided."
+        Exit Sub
+    End If
     
     Call ClearSeatingChart(seats, stringToSkip, True)
-    Call PutAttendeesToSeats(attendees, seats, maxAttendeesForEachLine, stringToSkip)
+    Call PutParticipantsToSeats(participants, seats, maxParticipantsForEachLine, stringToSkip)
     
     Debug.Print Timer - ST
     
@@ -142,30 +168,39 @@ Private Function GetSeats(top_left_seat_range As Range, seating_chart_range As R
 End Function
 
 
-Private Function GetAttendees(seating_chart_range As Range) As Variant
+Private Function GetParticipants(seating_chart_range As Range) As Variant
     
     With seating_chart_range
         Dim topRightCell As Range
         Set topRightCell = Intersect(.Item(1).EntireRow, .Item(.Count).EntireColumn).Offset(0, 2)
     End With
     
-    GetAttendees = Range(topRightCell, topRightCell.End(xlDown)).Value
+    If topRightCell.Value = "" Then
+        GetParticipants = Empty
+    Else
+        GetParticipants = Range(topRightCell, topRightCell.End(xlDown)).Value
+    End If
     
 End Function
 
 
-Private Function DecideSeatArrangement(seats_range() As Range, number_of_people As Long, number_of_needed_seats As Long, string_to_skip As String) As Long()
+Private Function DecideSeatArrangement(seats_range() As Range, number_of_participants As Long, number_of_needed_seats As Long, string_to_skip As String) As Long()
     
-    Dim maxAttendeesForEachLine() As Long
-    maxAttendeesForEachLine = DevideNumberEqually(number_of_needed_seats, UBound(seats_range(), 2), UBound(seats_range(), 1))
+    If number_of_needed_seats > UBound(seats_range, 1) * UBound(seats_range, 2) Then
+        MsgBox "Number of needed seats exceeded seats."
+        Exit Function
+    End If
+    
+    Dim maxParticipantsForEachLine() As Long
+    maxParticipantsForEachLine = DevideNumberEqually(number_of_needed_seats, UBound(seats_range(), 2), UBound(seats_range(), 1))
     
     Dim seatsToSkipCount As Long
-    seatsToSkipCount = CountSeatsToSkip(seats_range, maxAttendeesForEachLine, string_to_skip)
+    seatsToSkipCount = CountSeatsToSkip(seats_range, maxParticipantsForEachLine, string_to_skip)
     
-    If number_of_needed_seats - seatsToSkipCount >= number_of_people Then
-        DecideSeatArrangement = maxAttendeesForEachLine
+    If number_of_needed_seats - seatsToSkipCount >= number_of_participants Then
+        DecideSeatArrangement = maxParticipantsForEachLine
     Else
-        DecideSeatArrangement = DecideSeatArrangement(seats_range, number_of_people, number_of_people + seatsToSkipCount, string_to_skip)
+        DecideSeatArrangement = DecideSeatArrangement(seats_range, number_of_participants, number_of_participants + seatsToSkipCount, string_to_skip)
     End If
     
 End Function
@@ -186,6 +221,11 @@ Private Function DevideNumberEqually(number As Long, devide_into As Long, limit 
     
     If remainingNumber > 0 Then
         
+        If Int(number / devide_into) + 1 > limit Then
+            MsgBox "Exceeded the limit for a line."
+            Exit Function
+        End If
+        
         Dim numberToShift As Long
         numberToShift = Int((devide_into - remainingNumber) / 2)
         
@@ -201,7 +241,7 @@ Private Function DevideNumberEqually(number As Long, devide_into As Long, limit 
 End Function
 
 
-Private Function CountSeatsToSkip(seats_range() As Range, max_attendees_for_each_line() As Long, string_to_skip As String) As Long
+Private Function CountSeatsToSkip(seats_range() As Range, max_participants_for_each_line() As Long, string_to_skip As String) As Long
     
     Dim seatsToSkipCount As Long
     seatsToSkipCount = 0
@@ -209,7 +249,7 @@ Private Function CountSeatsToSkip(seats_range() As Range, max_attendees_for_each
     Dim j As Long
     For j = 1 To UBound(seats_range, 2)
         Dim i As Long
-        For i = 1 To max_attendees_for_each_line(j)
+        For i = 1 To max_participants_for_each_line(j)
             If seats_range(i, j).Cells(1, 1).Value = string_to_skip Then seatsToSkipCount = seatsToSkipCount + 1
         Next i
     Next j
@@ -256,7 +296,7 @@ Public Sub CallClearSeatingChart()
 End Sub
 
 
-Private Sub PutAttendeesToSeats(attendees_array As Variant, seats_range() As Range, max_attendees_for_each_line() As Long, string_to_skip As String)
+Private Sub PutParticipantsToSeats(participants_array As Variant, seats_range() As Range, max_participants_for_each_line() As Long, string_to_skip As String)
     
     Dim n As Long
     n = 1
@@ -264,16 +304,16 @@ Private Sub PutAttendeesToSeats(attendees_array As Variant, seats_range() As Ran
     Dim j As Long
     For j = 1 To UBound(seats_range, 2)
         Dim i As Long
-        For i = 1 To max_attendees_for_each_line(j)
+        For i = 1 To max_participants_for_each_line(j)
             With seats_range(i, j).Cells(1, 1)
                 If .Value <> string_to_skip Then
-                    .Value = attendees_array(n, 1)
+                    .Value = participants_array(n, 1)
                     n = n + 1
                 End If
             End With
-'            If n > UBound(attendees_array, 1) Then Exit For
+'            If n > UBound(participants_array, 1) Then Exit For
         Next i
-'        If n > UBound(attendees_array, 1) Then Exit For
+'        If n > UBound(participants_array, 1) Then Exit For
     Next j
     
 End Sub
