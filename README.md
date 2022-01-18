@@ -1,6 +1,6 @@
 # Suwarin
 
-Version 0.9.0
+Version 0.9.1
 
 ![demo](/images/suwarin.gif)
 
