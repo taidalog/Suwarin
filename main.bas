@@ -2,6 +2,7 @@ Attribute VB_Name = "main"
 Option Explicit
 
 Public Sub MakeSeatingChart()
+    ' main
     
     Dim ST As Double: ST = Timer
     
@@ -29,8 +30,24 @@ Public Sub MakeSeatingChart()
         Exit Sub
     End If
     
+    If seatingChartRange.Columns.Count Mod topLeftSeatRange.Columns.Count <> 0 Then
+        MsgBox "Seating chart has the wrong format."
+        Exit Sub
+    End If
+    
+    If seatingChartRange.Rows.Count Mod topLeftSeatRange.Rows.Count <> 0 Then
+        MsgBox "Seating chart has the wrong format."
+        Exit Sub
+    End If
+    
     Dim seats() As Range
     seats = GetSeats(topLeftSeatRange, seatingChartRange)
+    
+    ' Judging whether the dynamic array variable is assigned (-1 means "NOT assigned.").
+    If (Not seats) = -1 Then
+        MsgBox "Seats could not be found."
+        Exit Sub
+    End If
     
     Dim participants As Variant
     participants = GetParticipants(seatingChartRange)
@@ -51,7 +68,7 @@ Public Sub MakeSeatingChart()
     Dim maxParticipantsForEachLine() As Long
     maxParticipantsForEachLine = DecideSeatArrangement(seats, UBound(participants, 1), UBound(participants, 1), stringToSkip)
     
-    ' Judging whether the dynamic array variable is assigned (-1 is "NOT assigned.").
+    ' Judging whether the dynamic array variable is assigned (-1 means "NOT assigned.").
     If (Not maxParticipantsForEachLine) = -1 Then
         MsgBox "The number of participants for each line could not be decided."
         Exit Sub
