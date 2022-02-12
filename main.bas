@@ -10,9 +10,12 @@ Public Sub MakeSeatingChart()
     Set firstBorderedCell = GetFirstBorderedCell(ActiveSheet.UsedRange)
     
     If firstBorderedCell Is Nothing Then
-        MsgBox "Format Error:" & vbCrLf & _
+'        MsgBox "Format Error:" & vbCrLf & _
                "First bordered cell could not be found." & vbCrLf & _
                "See help and make it sure that the seating chart has the correct format."
+        MsgBox "�t�H�[�}�b�g �G���[:" & vbCrLf & _
+               "�ŏ��̌r���t���Z����������܂���ł����B" & vbCrLf & _
+               "�w���v���Q�Ƃ��āA���ȕ\�̃t�H�[�}�b�g�����������m�F���Ă��������B"
         Exit Sub
     End If
     
@@ -20,9 +23,12 @@ Public Sub MakeSeatingChart()
     Set topLeftSeatRange = GetTopLeftSeatRange(firstBorderedCell)
     
     If topLeftSeatRange Is Nothing Then
-        MsgBox "Format Error:" & vbCrLf & _
+'        MsgBox "Format Error:" & vbCrLf & _
                "Top left seat could not be found." & vbCrLf & _
                "See help and make it sure that the seating chart has the correct format."
+        MsgBox "�t�H�[�}�b�g �G���[:" & vbCrLf & _
+               "����̍��Ȃ�������܂���ł����B" & vbCrLf & _
+               "�w���v���Q�Ƃ��āA���ȕ\�̃t�H�[�}�b�g�����������m�F���Ă��������B"
         Exit Sub
     End If
     
@@ -30,16 +36,22 @@ Public Sub MakeSeatingChart()
     Set seatingChartRange = GetSeatingChartRange(firstBorderedCell)
     
     If seatingChartRange Is Nothing Then
-        MsgBox "Format Error:" & vbCrLf & _
+'        MsgBox "Format Error:" & vbCrLf & _
                "Seating chart range could not be found." & vbCrLf & _
                "See help and make it sure that the seating chart has the correct format."
+        MsgBox "�t�H�[�}�b�g �G���[:" & vbCrLf & _
+               "���ȕ\��������܂���ł����B" & vbCrLf & _
+               "�w���v���Q�Ƃ��āA���ȕ\�̃t�H�[�}�b�g�����������m�F���Ă��������B"
         Exit Sub
     End If
     
     If seatingChartRange.Columns.Count Mod topLeftSeatRange.Columns.Count <> 0 Then
-        MsgBox "Format Error:" & vbCrLf & _
+'        MsgBox "Format Error:" & vbCrLf & _
                "Some columns (vertical lines of seats) have wrong number of cells." & vbCrLf & _
                "See help and make it sure that the seating chart has the correct format."
+        MsgBox "�t�H�[�}�b�g �G���[:" & vbCrLf & _
+               "���ȕ\�̏c�̗�̃Z�������قȂ�܂��B" & vbCrLf & _
+               "�w���v���Q�Ƃ��āA���ȕ\�̃t�H�[�}�b�g�����������m�F���Ă��������B"
         Exit Sub
     End If
     
@@ -47,6 +59,9 @@ Public Sub MakeSeatingChart()
         MsgBox "Format Error:" & vbCrLf & _
                "Some rows (horizontal lines of seats) have wrong number of cells." & vbCrLf & _
                "See help and make it sure that the seating chart has the correct format."
+'        MsgBox "�t�H�[�}�b�g �G���[:" & vbCrLf & _
+               "���ȕ\�̉��̗�̃Z�������قȂ�܂��B" & vbCrLf & _
+               "�w���v���Q�Ƃ��āA���ȕ\�̃t�H�[�}�b�g�����������m�F���Ă��������B"
         Exit Sub
     End If
     
@@ -55,9 +70,12 @@ Public Sub MakeSeatingChart()
     
     ' Judging whether the dynamic array variable is assigned (-1 means "NOT assigned.").
     If (Not seats) = -1 Then
-        MsgBox "Format Error:" & vbCrLf & _
+'        MsgBox "Format Error:" & vbCrLf & _
                "Seats could not be found." & vbCrLf & _
                "See help and make it sure that the seating chart has the correct format."
+        MsgBox "�t�H�[�}�b�g �G���[:" & vbCrLf & _
+               "���Ȃ�������܂���ł����B" & vbCrLf & _
+               "�w���v���Q�Ƃ��āA���ȕ\�̃t�H�[�}�b�g�����������m�F���Ă��������B"
         Exit Sub
     End If
     
@@ -65,17 +83,23 @@ Public Sub MakeSeatingChart()
     participants = GetParticipants(seatingChartRange)
     
     If IsEmpty(participants) Then
-        MsgBox "Format Error:" & vbCrLf & _
+'        MsgBox "Format Error:" & vbCrLf & _
                "Participants could not be found." & vbCrLf & _
                "See help and make it sure that the seating chart has the correct format."
+        MsgBox "�t�H�[�}�b�g �G���[:" & vbCrLf & _
+               "�Q���҂�������܂���ł����B" & vbCrLf & _
+               "�w���v���Q�Ƃ��āA���ȕ\�̃t�H�[�}�b�g�����������m�F���Ă��������B"
         Exit Sub
     End If
     
     ' Judging whether number of participants exceeds the number of seats or not.
     If UBound(participants, 1) > UBound(seats, 1) * UBound(seats, 2) Then
-        MsgBox "Capacity Error." & vbCrLf & _
+'        MsgBox "Capacity Error." & vbCrLf & _
                "Participants exceeded seats." & vbCrLf & _
                "Expand the seating chart or reduce the number of the participants."
+        MsgBox "�L���p�V�e�B �G���[:" & vbCrLf & _
+               "�Q���҂̐������Ȑ��𒴂��܂����B" & vbCrLf & _
+               "���Ȑ��𑝂₷���A�Q���҂����炵�Ă��������B"
         Exit Sub
     End If
     
@@ -87,9 +111,6 @@ Public Sub MakeSeatingChart()
     
     ' Judging whether the dynamic array variable is assigned (-1 means "NOT assigned.").
     If (Not maxParticipantsForEachLine) = -1 Then
-'        MsgBox "Capafity Error:" & vbCrLf & _
-'               "The number of participants for each line could not be decided." & vbCrLf & _
-'               ""
         Exit Sub
     End If
     
@@ -226,9 +247,12 @@ End Function
 Private Function DecideSeatArrangement(seats_range() As Range, number_of_participants As Long, number_of_needed_seats As Long, string_to_skip As String) As Long()
     
     If number_of_needed_seats > UBound(seats_range, 1) * UBound(seats_range, 2) Then
-        MsgBox "Capacity Error:" & vbCrLf & _
-               "Number of needed seats exceeded seats." & vbCrLf & _
-               "Reduce the number of '" & string_to_skip & "'."
+'        MsgBox "Capacity Error:" & vbCrLf & _
+               "Number of needed seats exceeded existing seats." & vbCrLf & _
+               "Expand the seating chart or reduce the number of '" & string_to_skip & "'."
+        MsgBox "�L���p�V�e�B �G���[:" & vbCrLf & _
+               "�K�v�ȍ��ȕ\�����ۂ̍��Ȑ��𒴂��܂����B" & vbCrLf & _
+               "���Ȑ��𑝂₷���A'" & string_to_skip & "'�����炵�Ă��������B"
         Exit Function
     End If
     
@@ -263,9 +287,12 @@ Private Function DevideNumberEqually(number As Long, devide_into As Long, limit 
     If remainingNumber > 0 Then
         
         If Int(number / devide_into) + 1 > limit Then
-            MsgBox "Capacity Error:" & vbCrLf & _
+'            MsgBox "Capacity Error:" & vbCrLf & _
                    "Exceeded the limit for a line." & vbCrLf & _
                    "Expand the seating chart or reduce the number of the participants."
+            MsgBox "�L���p�V�e�B �G���[:" & vbCrLf & _
+                   "��񂠂���̐l���̏���𒴂��܂����B" & vbCrLf & _
+                   "���Ȑ��𑝂₷���A�Q���҂����炵�Ă��������B"
             Exit Function
         End If
         
@@ -332,7 +359,8 @@ Public Sub CallClearSeatingChart()
     stringToSkip = "x"
     
     Dim leaveStringToSkip As Boolean
-    leaveStringToSkip = MsgBox("Do you want to leave '" & stringToSkip & "'?", vbYesNo) = vbYes
+'    leaveStringToSkip = MsgBox("Do you want to leave '" & stringToSkip & "'?", vbYesNo) = vbYes
+    leaveStringToSkip = MsgBox("'" & stringToSkip & "'���c���܂����H", vbYesNo) = vbYes
     
     Call ClearSeatingChart(seats, stringToSkip, leaveStringToSkip)
     
@@ -391,20 +419,24 @@ Public Sub AddToContextMenu()
                 
                 With .Item(i).Controls.Add(Type:=msoControlPopup, Temporary:=True)
                     .BeginGroup = True
-                    .Caption = "&" & ThisWorkbook.Name
+'                    .Caption = "&" & ThisWorkbook.Name
+                    .Caption = ThisWorkbook.Name & "(&" & Mid(ThisWorkbook.Name, 1, 1) & ")"
                     
                     With .Controls.Add
-                        .Caption = "&Make Seating Chart"
+'                        .Caption = "&Make Seating Chart"
+                        .Caption = "���ȕ\���쐬����(&M)"
                         .OnAction = ThisWorkbook.Name & "!" & "MakeSeatingChart"
                     End With
                     
                     With .Controls.Add
-                        .Caption = "&Clear Seating Chart"
+'                        .Caption = "&Clear Seating Chart"
+                        .Caption = "���ȕ\����������(&C)"
                         .OnAction = ThisWorkbook.Name & "!" & "CallClearSeatingChart"
                     End With
                     
                     With .Controls.Add
-                        .Caption = "C&opy This Worksheet"
+'                        .Caption = "Co&py This Worksheet"
+                        .Caption = "���̃V�[�g�𕡐�����(&P)"
                         .OnAction = ThisWorkbook.Name & "!" & "CopyActivesheet"
                     End With
                     
