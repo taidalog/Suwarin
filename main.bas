@@ -10,7 +10,12 @@ Public Sub MakeSeatingChart()
     Set firstBorderedCell = GetFirstBorderedCell(ActiveSheet.UsedRange)
     
     If firstBorderedCell Is Nothing Then
-        MsgBox "First bordered cell was not found."
+'        MsgBox "Format Error:" & vbCrLf & _
+               "First bordered cell could not be found." & vbCrLf & _
+               "See help and make it sure that the seating chart has the correct format."
+        MsgBox "フォーマット エラー:" & vbCrLf & _
+               "最初の罫線付きセルが見つかりませんでした。" & vbCrLf & _
+               "ヘルプを参照して、座席表のフォーマットが正しいか確認してください。"
         Exit Sub
     End If
     
@@ -18,7 +23,12 @@ Public Sub MakeSeatingChart()
     Set topLeftSeatRange = GetTopLeftSeatRange(firstBorderedCell)
     
     If topLeftSeatRange Is Nothing Then
-        MsgBox "Top left seat was not found."
+'        MsgBox "Format Error:" & vbCrLf & _
+               "Top left seat could not be found." & vbCrLf & _
+               "See help and make it sure that the seating chart has the correct format."
+        MsgBox "フォーマット エラー:" & vbCrLf & _
+               "左上の座席が見つかりませんでした。" & vbCrLf & _
+               "ヘルプを参照して、座席表のフォーマットが正しいか確認してください。"
         Exit Sub
     End If
     
@@ -26,17 +36,32 @@ Public Sub MakeSeatingChart()
     Set seatingChartRange = GetSeatingChartRange(firstBorderedCell)
     
     If seatingChartRange Is Nothing Then
-        MsgBox "Seating chart range was not found."
+'        MsgBox "Format Error:" & vbCrLf & _
+               "Seating chart range could not be found." & vbCrLf & _
+               "See help and make it sure that the seating chart has the correct format."
+        MsgBox "フォーマット エラー:" & vbCrLf & _
+               "座席表が見つかりませんでした。" & vbCrLf & _
+               "ヘルプを参照して、座席表のフォーマットが正しいか確認してください。"
         Exit Sub
     End If
     
     If seatingChartRange.Columns.Count Mod topLeftSeatRange.Columns.Count <> 0 Then
-        MsgBox "Seating chart has the wrong format."
+'        MsgBox "Format Error:" & vbCrLf & _
+               "Some columns (vertical lines of seats) have wrong number of cells." & vbCrLf & _
+               "See help and make it sure that the seating chart has the correct format."
+        MsgBox "フォーマット エラー:" & vbCrLf & _
+               "座席表の縦の列のセル数が異なります。" & vbCrLf & _
+               "ヘルプを参照して、座席表のフォーマットが正しいか確認してください。"
         Exit Sub
     End If
     
     If seatingChartRange.Rows.Count Mod topLeftSeatRange.Rows.Count <> 0 Then
-        MsgBox "Seating chart has the wrong format."
+        MsgBox "Format Error:" & vbCrLf & _
+               "Some rows (horizontal lines of seats) have wrong number of cells." & vbCrLf & _
+               "See help and make it sure that the seating chart has the correct format."
+'        MsgBox "フォーマット エラー:" & vbCrLf & _
+               "座席表の横の列のセル数が異なります。" & vbCrLf & _
+               "ヘルプを参照して、座席表のフォーマットが正しいか確認してください。"
         Exit Sub
     End If
     
@@ -45,7 +70,12 @@ Public Sub MakeSeatingChart()
     
     ' Judging whether the dynamic array variable is assigned (-1 means "NOT assigned.").
     If (Not seats) = -1 Then
-        MsgBox "Seats could not be found."
+'        MsgBox "Format Error:" & vbCrLf & _
+               "Seats could not be found." & vbCrLf & _
+               "See help and make it sure that the seating chart has the correct format."
+        MsgBox "フォーマット エラー:" & vbCrLf & _
+               "座席が見つかりませんでした。" & vbCrLf & _
+               "ヘルプを参照して、座席表のフォーマットが正しいか確認してください。"
         Exit Sub
     End If
     
@@ -53,12 +83,23 @@ Public Sub MakeSeatingChart()
     participants = GetParticipants(seatingChartRange)
     
     If IsEmpty(participants) Then
-        MsgBox "Participants were not found."
+'        MsgBox "Format Error:" & vbCrLf & _
+               "Participants could not be found." & vbCrLf & _
+               "See help and make it sure that the seating chart has the correct format."
+        MsgBox "フォーマット エラー:" & vbCrLf & _
+               "参加者が見つかりませんでした。" & vbCrLf & _
+               "ヘルプを参照して、座席表のフォーマットが正しいか確認してください。"
         Exit Sub
     End If
     
+    ' Judging whether number of participants exceeds the number of seats or not.
     If UBound(participants, 1) > UBound(seats, 1) * UBound(seats, 2) Then
-        MsgBox "Participants exceeded seats."
+'        MsgBox "Capacity Error." & vbCrLf & _
+               "Participants exceeded seats." & vbCrLf & _
+               "Expand the seating chart or reduce the number of the participants."
+        MsgBox "キャパシティ エラー:" & vbCrLf & _
+               "参加者の数が座席数を超えました。" & vbCrLf & _
+               "座席数を増やすか、参加者を減らしてください。"
         Exit Sub
     End If
     
@@ -70,7 +111,6 @@ Public Sub MakeSeatingChart()
     
     ' Judging whether the dynamic array variable is assigned (-1 means "NOT assigned.").
     If (Not maxParticipantsForEachLine) = -1 Then
-        MsgBox "The number of participants for each line could not be decided."
         Exit Sub
     End If
     
@@ -189,13 +229,16 @@ Private Function GetParticipants(seating_chart_range As Range) As Variant
     
     With seating_chart_range
         Dim topRightCell As Range
-        Set topRightCell = Intersect(.Item(1).EntireRow, .Item(.Count).EntireColumn).Offset(0, 2)
+        Set topRightCell = Intersect(.Item(1).EntireRow, .Item(.Count).EntireColumn)
     End With
     
-    If topRightCell.Value = "" Then
+    Dim topParticipantsRange As Range
+    Set topParticipantsRange = topRightCell.Offset(0, 2)
+    
+    If topParticipantsRange.Value = "" Then
         GetParticipants = Empty
     Else
-        GetParticipants = Range(topRightCell, topRightCell.End(xlDown)).Value
+        GetParticipants = Range(topParticipantsRange, topParticipantsRange.End(xlDown)).Value
     End If
     
 End Function
@@ -204,7 +247,12 @@ End Function
 Private Function DecideSeatArrangement(seats_range() As Range, number_of_participants As Long, number_of_needed_seats As Long, string_to_skip As String) As Long()
     
     If number_of_needed_seats > UBound(seats_range, 1) * UBound(seats_range, 2) Then
-        MsgBox "Number of needed seats exceeded seats."
+'        MsgBox "Capacity Error:" & vbCrLf & _
+               "Number of needed seats exceeded existing seats." & vbCrLf & _
+               "Expand the seating chart or reduce the number of '" & string_to_skip & "'."
+        MsgBox "キャパシティ エラー:" & vbCrLf & _
+               "必要な座席表が実際の座席数を超えました。" & vbCrLf & _
+               "座席数を増やすか、'" & string_to_skip & "'を減らしてください。"
         Exit Function
     End If
     
@@ -239,7 +287,12 @@ Private Function DevideNumberEqually(number As Long, devide_into As Long, limit 
     If remainingNumber > 0 Then
         
         If Int(number / devide_into) + 1 > limit Then
-            MsgBox "Exceeded the limit for a line."
+'            MsgBox "Capacity Error:" & vbCrLf & _
+                   "Exceeded the limit for a line." & vbCrLf & _
+                   "Expand the seating chart or reduce the number of the participants."
+            MsgBox "キャパシティ エラー:" & vbCrLf & _
+                   "一列あたりの人数の上限を超えました。" & vbCrLf & _
+                   "座席数を増やすか、参加者を減らしてください。"
             Exit Function
         End If
         
@@ -306,7 +359,8 @@ Public Sub CallClearSeatingChart()
     stringToSkip = "x"
     
     Dim leaveStringToSkip As Boolean
-    leaveStringToSkip = MsgBox("Do you want to leave '" & stringToSkip & "'?", vbYesNo) = vbYes
+'    leaveStringToSkip = MsgBox("Do you want to leave '" & stringToSkip & "'?", vbYesNo) = vbYes
+    leaveStringToSkip = MsgBox("'" & stringToSkip & "'を残しますか？", vbYesNo) = vbYes
     
     Call ClearSeatingChart(seats, stringToSkip, leaveStringToSkip)
     
@@ -365,20 +419,24 @@ Public Sub AddToContextMenu()
                 
                 With .Item(i).Controls.Add(Type:=msoControlPopup, Temporary:=True)
                     .BeginGroup = True
-                    .Caption = "&" & ThisWorkbook.Name
+'                    .Caption = "&" & ThisWorkbook.Name
+                    .Caption = ThisWorkbook.Name & "(&" & Mid(ThisWorkbook.Name, 1, 1) & ")"
                     
                     With .Controls.Add
-                        .Caption = "&Make Seating Chart"
+'                        .Caption = "&Make Seating Chart"
+                        .Caption = "座席表を作成する(&M)"
                         .OnAction = ThisWorkbook.Name & "!" & "MakeSeatingChart"
                     End With
                     
                     With .Controls.Add
-                        .Caption = "&Clear Seating Chart"
+'                        .Caption = "&Clear Seating Chart"
+                        .Caption = "座席表を消去する(&C)"
                         .OnAction = ThisWorkbook.Name & "!" & "CallClearSeatingChart"
                     End With
                     
                     With .Controls.Add
-                        .Caption = "C&opy This Worksheet"
+'                        .Caption = "Co&py This Worksheet"
+                        .Caption = "このシートを複製する(&P)"
                         .OnAction = ThisWorkbook.Name & "!" & "CopyActivesheet"
                     End With
                     
