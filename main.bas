@@ -13,9 +13,9 @@ Public Sub MakeSeatingChart()
 '        MsgBox "Format Error:" & vbCrLf & _
                "First bordered cell could not be found." & vbCrLf & _
                "See help and make it sure that the seating chart has the correct format."
-        MsgBox "ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½g ï¿½Gï¿½ï¿½ï¿½[:" & vbCrLf & _
-               "ï¿½Åï¿½ï¿½ÌŒrï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½B" & vbCrLf & _
-               "ï¿½wï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Qï¿½Æ‚ï¿½ï¿½ÄAï¿½ï¿½ï¿½È•\ï¿½Ìƒtï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B"
+        MsgBox "ƒtƒH[ƒ}ƒbƒg ƒGƒ‰[:" & vbCrLf & _
+               "Å‰‚ÌŒrü•t‚«ƒZƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½B" & vbCrLf & _
+               "ƒwƒ‹ƒv‚ğQÆ‚µ‚ÄAÀÈ•\‚ÌƒtƒH[ƒ}ƒbƒg‚ª³‚µ‚¢‚©Šm”F‚µ‚Ä‚­‚¾‚³‚¢B"
         Exit Sub
     End If
     
@@ -26,9 +26,9 @@ Public Sub MakeSeatingChart()
 '        MsgBox "Format Error:" & vbCrLf & _
                "Top left seat could not be found." & vbCrLf & _
                "See help and make it sure that the seating chart has the correct format."
-        MsgBox "ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½g ï¿½Gï¿½ï¿½ï¿½[:" & vbCrLf & _
-               "ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½B" & vbCrLf & _
-               "ï¿½wï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Qï¿½Æ‚ï¿½ï¿½ÄAï¿½ï¿½ï¿½È•\ï¿½Ìƒtï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B"
+        MsgBox "ƒtƒH[ƒ}ƒbƒg ƒGƒ‰[:" & vbCrLf & _
+               "¶ã‚ÌÀÈ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½B" & vbCrLf & _
+               "ƒwƒ‹ƒv‚ğQÆ‚µ‚ÄAÀÈ•\‚ÌƒtƒH[ƒ}ƒbƒg‚ª³‚µ‚¢‚©Šm”F‚µ‚Ä‚­‚¾‚³‚¢B"
         Exit Sub
     End If
     
@@ -39,9 +39,9 @@ Public Sub MakeSeatingChart()
 '        MsgBox "Format Error:" & vbCrLf & _
                "Seating chart range could not be found." & vbCrLf & _
                "See help and make it sure that the seating chart has the correct format."
-        MsgBox "ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½g ï¿½Gï¿½ï¿½ï¿½[:" & vbCrLf & _
-               "ï¿½ï¿½ï¿½È•\ï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½B" & vbCrLf & _
-               "ï¿½wï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Qï¿½Æ‚ï¿½ï¿½ÄAï¿½ï¿½ï¿½È•\ï¿½Ìƒtï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B"
+        MsgBox "ƒtƒH[ƒ}ƒbƒg ƒGƒ‰[:" & vbCrLf & _
+               "ÀÈ•\‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½B" & vbCrLf & _
+               "ƒwƒ‹ƒv‚ğQÆ‚µ‚ÄAÀÈ•\‚ÌƒtƒH[ƒ}ƒbƒg‚ª³‚µ‚¢‚©Šm”F‚µ‚Ä‚­‚¾‚³‚¢B"
         Exit Sub
     End If
     
@@ -49,19 +49,19 @@ Public Sub MakeSeatingChart()
 '        MsgBox "Format Error:" & vbCrLf & _
                "Some columns (vertical lines of seats) have wrong number of cells." & vbCrLf & _
                "See help and make it sure that the seating chart has the correct format."
-        MsgBox "ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½g ï¿½Gï¿½ï¿½ï¿½[:" & vbCrLf & _
-               "ï¿½ï¿½ï¿½È•\ï¿½Ìcï¿½Ì—ï¿½ÌƒZï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù‚È‚ï¿½Ü‚ï¿½ï¿½B" & vbCrLf & _
-               "ï¿½wï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Qï¿½Æ‚ï¿½ï¿½ÄAï¿½ï¿½ï¿½È•\ï¿½Ìƒtï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B"
+        MsgBox "ƒtƒH[ƒ}ƒbƒg ƒGƒ‰[:" & vbCrLf & _
+               "ÀÈ•\‚Ìc‚Ì—ñ‚ÌƒZƒ‹”‚ªˆÙ‚È‚è‚Ü‚·B" & vbCrLf & _
+               "ƒwƒ‹ƒv‚ğQÆ‚µ‚ÄAÀÈ•\‚ÌƒtƒH[ƒ}ƒbƒg‚ª³‚µ‚¢‚©Šm”F‚µ‚Ä‚­‚¾‚³‚¢B"
         Exit Sub
     End If
     
     If seatingChartRange.Rows.Count Mod topLeftSeatRange.Rows.Count <> 0 Then
-        MsgBox "Format Error:" & vbCrLf & _
+'        MsgBox "Format Error:" & vbCrLf & _
                "Some rows (horizontal lines of seats) have wrong number of cells." & vbCrLf & _
                "See help and make it sure that the seating chart has the correct format."
-'        MsgBox "ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½g ï¿½Gï¿½ï¿½ï¿½[:" & vbCrLf & _
-               "ï¿½ï¿½ï¿½È•\ï¿½Ì‰ï¿½ï¿½Ì—ï¿½ÌƒZï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù‚È‚ï¿½Ü‚ï¿½ï¿½B" & vbCrLf & _
-               "ï¿½wï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Qï¿½Æ‚ï¿½ï¿½ÄAï¿½ï¿½ï¿½È•\ï¿½Ìƒtï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B"
+        MsgBox "ƒtƒH[ƒ}ƒbƒg ƒGƒ‰[:" & vbCrLf & _
+               "ÀÈ•\‚Ì‰¡‚Ì—ñ‚ÌƒZƒ‹”‚ªˆÙ‚È‚è‚Ü‚·B" & vbCrLf & _
+               "ƒwƒ‹ƒv‚ğQÆ‚µ‚ÄAÀÈ•\‚ÌƒtƒH[ƒ}ƒbƒg‚ª³‚µ‚¢‚©Šm”F‚µ‚Ä‚­‚¾‚³‚¢B"
         Exit Sub
     End If
     
@@ -73,9 +73,9 @@ Public Sub MakeSeatingChart()
 '        MsgBox "Format Error:" & vbCrLf & _
                "Seats could not be found." & vbCrLf & _
                "See help and make it sure that the seating chart has the correct format."
-        MsgBox "ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½g ï¿½Gï¿½ï¿½ï¿½[:" & vbCrLf & _
-               "ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½B" & vbCrLf & _
-               "ï¿½wï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Qï¿½Æ‚ï¿½ï¿½ÄAï¿½ï¿½ï¿½È•\ï¿½Ìƒtï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B"
+        MsgBox "ƒtƒH[ƒ}ƒbƒg ƒGƒ‰[:" & vbCrLf & _
+               "ÀÈ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½B" & vbCrLf & _
+               "ƒwƒ‹ƒv‚ğQÆ‚µ‚ÄAÀÈ•\‚ÌƒtƒH[ƒ}ƒbƒg‚ª³‚µ‚¢‚©Šm”F‚µ‚Ä‚­‚¾‚³‚¢B"
         Exit Sub
     End If
     
@@ -86,9 +86,9 @@ Public Sub MakeSeatingChart()
 '        MsgBox "Format Error:" & vbCrLf & _
                "Participants could not be found." & vbCrLf & _
                "See help and make it sure that the seating chart has the correct format."
-        MsgBox "ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½g ï¿½Gï¿½ï¿½ï¿½[:" & vbCrLf & _
-               "ï¿½Qï¿½ï¿½ï¿½Ò‚ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½B" & vbCrLf & _
-               "ï¿½wï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Qï¿½Æ‚ï¿½ï¿½ÄAï¿½ï¿½ï¿½È•\ï¿½Ìƒtï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B"
+        MsgBox "ƒtƒH[ƒ}ƒbƒg ƒGƒ‰[:" & vbCrLf & _
+               "Q‰ÁÒ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½B" & vbCrLf & _
+               "ƒwƒ‹ƒv‚ğQÆ‚µ‚ÄAÀÈ•\‚ÌƒtƒH[ƒ}ƒbƒg‚ª³‚µ‚¢‚©Šm”F‚µ‚Ä‚­‚¾‚³‚¢B"
         Exit Sub
     End If
     
@@ -97,9 +97,9 @@ Public Sub MakeSeatingChart()
 '        MsgBox "Capacity Error." & vbCrLf & _
                "Participants exceeded seats." & vbCrLf & _
                "Expand the seating chart or reduce the number of the participants."
-        MsgBox "ï¿½Lï¿½ï¿½ï¿½pï¿½Vï¿½eï¿½B ï¿½Gï¿½ï¿½ï¿½[:" & vbCrLf & _
-               "ï¿½Qï¿½ï¿½ï¿½Ò‚Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Èï¿½ï¿½ğ’´‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B" & vbCrLf & _
-               "ï¿½ï¿½ï¿½Èï¿½ï¿½ğ‘‚â‚·ï¿½ï¿½ï¿½Aï¿½Qï¿½ï¿½ï¿½Ò‚ï¿½ï¿½ï¿½ï¿½ç‚µï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B"
+        MsgBox "ƒLƒƒƒpƒVƒeƒB ƒGƒ‰[:" & vbCrLf & _
+               "Q‰ÁÒ‚Ì”‚ªÀÈ”‚ğ’´‚¦‚Ü‚µ‚½B" & vbCrLf & _
+               "ÀÈ”‚ğ‘‚â‚·‚©AQ‰ÁÒ‚ğŒ¸‚ç‚µ‚Ä‚­‚¾‚³‚¢B"
         Exit Sub
     End If
     
@@ -250,9 +250,9 @@ Private Function DecideSeatArrangement(seats_range() As Range, number_of_partici
 '        MsgBox "Capacity Error:" & vbCrLf & _
                "Number of needed seats exceeded existing seats." & vbCrLf & _
                "Expand the seating chart or reduce the number of '" & string_to_skip & "'."
-        MsgBox "ï¿½Lï¿½ï¿½ï¿½pï¿½Vï¿½eï¿½B ï¿½Gï¿½ï¿½ï¿½[:" & vbCrLf & _
-               "ï¿½Kï¿½vï¿½Èï¿½ï¿½È•\ï¿½ï¿½ï¿½ï¿½ï¿½Û‚Ìï¿½ï¿½Èï¿½ï¿½ğ’´‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B" & vbCrLf & _
-               "ï¿½ï¿½ï¿½Èï¿½ï¿½ğ‘‚â‚·ï¿½ï¿½ï¿½A'" & string_to_skip & "'ï¿½ï¿½ï¿½ï¿½ï¿½ç‚µï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B"
+        MsgBox "ƒLƒƒƒpƒVƒeƒB ƒGƒ‰[:" & vbCrLf & _
+               "•K—v‚ÈÀÈ•\‚ªÀÛ‚ÌÀÈ”‚ğ’´‚¦‚Ü‚µ‚½B" & vbCrLf & _
+               "ÀÈ”‚ğ‘‚â‚·‚©A'" & string_to_skip & "'‚ğŒ¸‚ç‚µ‚Ä‚­‚¾‚³‚¢B"
         Exit Function
     End If
     
@@ -290,9 +290,9 @@ Private Function DevideNumberEqually(number As Long, devide_into As Long, limit 
 '            MsgBox "Capacity Error:" & vbCrLf & _
                    "Exceeded the limit for a line." & vbCrLf & _
                    "Expand the seating chart or reduce the number of the participants."
-            MsgBox "ï¿½Lï¿½ï¿½ï¿½pï¿½Vï¿½eï¿½B ï¿½Gï¿½ï¿½ï¿½[:" & vbCrLf & _
-                   "ï¿½ï¿½ñ‚ ‚ï¿½ï¿½ï¿½Ìlï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ğ’´‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B" & vbCrLf & _
-                   "ï¿½ï¿½ï¿½Èï¿½ï¿½ğ‘‚â‚·ï¿½ï¿½ï¿½Aï¿½Qï¿½ï¿½ï¿½Ò‚ï¿½ï¿½ï¿½ï¿½ç‚µï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B"
+            MsgBox "ƒLƒƒƒpƒVƒeƒB ƒGƒ‰[:" & vbCrLf & _
+                   "ˆê—ñ‚ ‚½‚è‚Ìl”‚ÌãŒÀ‚ğ’´‚¦‚Ü‚µ‚½B" & vbCrLf & _
+                   "ÀÈ”‚ğ‘‚â‚·‚©AQ‰ÁÒ‚ğŒ¸‚ç‚µ‚Ä‚­‚¾‚³‚¢B"
             Exit Function
         End If
         
@@ -360,7 +360,7 @@ Public Sub CallClearSeatingChart()
     
     Dim leaveStringToSkip As Boolean
 '    leaveStringToSkip = MsgBox("Do you want to leave '" & stringToSkip & "'?", vbYesNo) = vbYes
-    leaveStringToSkip = MsgBox("'" & stringToSkip & "'ï¿½ï¿½ï¿½cï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½H", vbYesNo) = vbYes
+    leaveStringToSkip = MsgBox("'" & stringToSkip & "'‚ğc‚µ‚Ü‚·‚©H", vbYesNo) = vbYes
     
     Call ClearSeatingChart(seats, stringToSkip, leaveStringToSkip)
     
@@ -424,19 +424,19 @@ Public Sub AddToContextMenu()
                     
                     With .Controls.Add
 '                        .Caption = "&Make Seating Chart"
-                        .Caption = "ï¿½ï¿½ï¿½È•\ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½(&M)"
+                        .Caption = "ÀÈ•\‚ğì¬‚·‚é(&M)"
                         .OnAction = ThisWorkbook.Name & "!" & "MakeSeatingChart"
                     End With
                     
                     With .Controls.Add
 '                        .Caption = "&Clear Seating Chart"
-                        .Caption = "ï¿½ï¿½ï¿½È•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(&C)"
+                        .Caption = "ÀÈ•\‚ğÁ‹‚·‚é(&C)"
                         .OnAction = ThisWorkbook.Name & "!" & "CallClearSeatingChart"
                     End With
                     
                     With .Controls.Add
 '                        .Caption = "Co&py This Worksheet"
-                        .Caption = "ï¿½ï¿½ï¿½ÌƒVï¿½[ï¿½gï¿½ğ•¡ï¿½ï¿½ï¿½ï¿½ï¿½(&P)"
+                        .Caption = "‚±‚ÌƒV[ƒg‚ğ•¡»‚·‚é(&P)"
                         .OnAction = ThisWorkbook.Name & "!" & "CopyActivesheet"
                     End With
                     
