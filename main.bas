@@ -75,7 +75,7 @@ Public Sub MakeSeatingChart()
     If UBound(participants, 1) > UBound(seats, 1) * UBound(seats, 2) Then
         MsgBox "Capacity Error." & vbCrLf & _
                "Participants exceeded seats." & vbCrLf & _
-               "You have to expand the seating chart or reduce the participants."
+               "Expand the seating chart or reduce the number of the participants."
         Exit Sub
     End If
     
@@ -228,7 +228,7 @@ Private Function DecideSeatArrangement(seats_range() As Range, number_of_partici
     If number_of_needed_seats > UBound(seats_range, 1) * UBound(seats_range, 2) Then
         MsgBox "Capacity Error:" & vbCrLf & _
                "Number of needed seats exceeded seats." & vbCrLf & _
-               "You have to reduce the number of '" & string_to_skip & "'."
+               "Reduce the number of '" & string_to_skip & "'."
         Exit Function
     End If
     
@@ -265,7 +265,7 @@ Private Function DevideNumberEqually(number As Long, devide_into As Long, limit 
         If Int(number / devide_into) + 1 > limit Then
             MsgBox "Capacity Error:" & vbCrLf & _
                    "Exceeded the limit for a line." & vbCrLf & _
-                   "You have to expand the seating chart or reduce the participants."
+                   "Expand the seating chart or reduce the number of the participants."
             Exit Function
         End If
         
