@@ -10,7 +10,9 @@ Public Sub MakeSeatingChart()
     Set firstBorderedCell = GetFirstBorderedCell(ActiveSheet.UsedRange)
     
     If firstBorderedCell Is Nothing Then
-        MsgBox "First bordered cell was not found."
+        MsgBox "Format Error:" & vbCrLf & _
+               "First bordered cell could not be found." & vbCrLf & _
+               "See help and make it sure that the seating chart has the correct format."
         Exit Sub
     End If
     
@@ -18,7 +20,9 @@ Public Sub MakeSeatingChart()
     Set topLeftSeatRange = GetTopLeftSeatRange(firstBorderedCell)
     
     If topLeftSeatRange Is Nothing Then
-        MsgBox "Top left seat was not found."
+        MsgBox "Format Error:" & vbCrLf & _
+               "Top left seat could not be found." & vbCrLf & _
+               "See help and make it sure that the seating chart has the correct format."
         Exit Sub
     End If
     
@@ -26,17 +30,23 @@ Public Sub MakeSeatingChart()
     Set seatingChartRange = GetSeatingChartRange(firstBorderedCell)
     
     If seatingChartRange Is Nothing Then
-        MsgBox "Seating chart range was not found."
+        MsgBox "Format Error:" & vbCrLf & _
+               "Seating chart range could not be found." & vbCrLf & _
+               "See help and make it sure that the seating chart has the correct format."
         Exit Sub
     End If
     
     If seatingChartRange.Columns.Count Mod topLeftSeatRange.Columns.Count <> 0 Then
-        MsgBox "Seating chart has the wrong format."
+        MsgBox "Format Error:" & vbCrLf & _
+               "Some columns (vertical lines of seats) have wrong number of cells." & vbCrLf & _
+               "See help and make it sure that the seating chart has the correct format."
         Exit Sub
     End If
     
     If seatingChartRange.Rows.Count Mod topLeftSeatRange.Rows.Count <> 0 Then
-        MsgBox "Seating chart has the wrong format."
+        MsgBox "Format Error:" & vbCrLf & _
+               "Some rows (horizontal lines of seats) have wrong number of cells." & vbCrLf & _
+               "See help and make it sure that the seating chart has the correct format."
         Exit Sub
     End If
     
@@ -45,7 +55,9 @@ Public Sub MakeSeatingChart()
     
     ' Judging whether the dynamic array variable is assigned (-1 means "NOT assigned.").
     If (Not seats) = -1 Then
-        MsgBox "Seats could not be found."
+        MsgBox "Format Error:" & vbCrLf & _
+               "Seats could not be found." & vbCrLf & _
+               "See help and make it sure that the seating chart has the correct format."
         Exit Sub
     End If
     
@@ -53,12 +65,17 @@ Public Sub MakeSeatingChart()
     participants = GetParticipants(seatingChartRange)
     
     If IsEmpty(participants) Then
-        MsgBox "Participants were not found."
+        MsgBox "Format Error:" & vbCrLf & _
+               "Participants could not be found." & vbCrLf & _
+               "See help and make it sure that the seating chart has the correct format."
         Exit Sub
     End If
     
+    ' Judging whether number of participants exceeds the number of seats or not.
     If UBound(participants, 1) > UBound(seats, 1) * UBound(seats, 2) Then
-        MsgBox "Participants exceeded seats."
+        MsgBox "Capacity Error." & vbCrLf & _
+               "Participants exceeded seats." & vbCrLf & _
+               "You have to expand the seating chart or reduce the participants."
         Exit Sub
     End If
     
@@ -70,7 +87,9 @@ Public Sub MakeSeatingChart()
     
     ' Judging whether the dynamic array variable is assigned (-1 means "NOT assigned.").
     If (Not maxParticipantsForEachLine) = -1 Then
-        MsgBox "The number of participants for each line could not be decided."
+'        MsgBox "Capafity Error:" & vbCrLf & _
+'               "The number of participants for each line could not be decided." & vbCrLf & _
+'               ""
         Exit Sub
     End If
     
@@ -189,13 +208,16 @@ Private Function GetParticipants(seating_chart_range As Range) As Variant
     
     With seating_chart_range
         Dim topRightCell As Range
-        Set topRightCell = Intersect(.Item(1).EntireRow, .Item(.Count).EntireColumn).Offset(0, 2)
+        Set topRightCell = Intersect(.Item(1).EntireRow, .Item(.Count).EntireColumn)
     End With
     
-    If topRightCell.Value = "" Then
+    Dim topParticipantsRange As Range
+    Set topParticipantsRange = topRightCell.Offset(0, 2)
+    
+    If topParticipantsRange.Value = "" Then
         GetParticipants = Empty
     Else
-        GetParticipants = Range(topRightCell, topRightCell.End(xlDown)).Value
+        GetParticipants = Range(topParticipantsRange, topParticipantsRange.End(xlDown)).Value
     End If
     
 End Function
@@ -204,7 +226,9 @@ End Function
 Private Function DecideSeatArrangement(seats_range() As Range, number_of_participants As Long, number_of_needed_seats As Long, string_to_skip As String) As Long()
     
     If number_of_needed_seats > UBound(seats_range, 1) * UBound(seats_range, 2) Then
-        MsgBox "Number of needed seats exceeded seats."
+        MsgBox "Capacity Error:" & vbCrLf & _
+               "Number of needed seats exceeded seats." & vbCrLf & _
+               "You have to reduce the number of '" & string_to_skip & "'."
         Exit Function
     End If
     
@@ -239,7 +263,9 @@ Private Function DevideNumberEqually(number As Long, devide_into As Long, limit 
     If remainingNumber > 0 Then
         
         If Int(number / devide_into) + 1 > limit Then
-            MsgBox "Exceeded the limit for a line."
+            MsgBox "Capacity Error:" & vbCrLf & _
+                   "Exceeded the limit for a line." & vbCrLf & _
+                   "You have to expand the seating chart or reduce the participants."
             Exit Function
         End If
         
