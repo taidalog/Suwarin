@@ -90,7 +90,7 @@ Public Sub MakeSeatingChart()
     End If
     
     Dim seats() As Range
-    seats = GetSeats(topLeftSeatRange, seatingChartRange, BottomRight, ByColumn)
+    seats = GetSeats(topLeftSeatRange, seatingChartRange, TopLeft, ByColumn)
     
     ' Judging whether the dynamic array variable is assigned (-1 means "NOT assigned.").
     If (Not seats) = -1 Then
@@ -131,7 +131,7 @@ Public Sub MakeSeatingChart()
     stringToSkip = "x"
     
     Dim maxParticipantsForEachLine() As Long
-    maxParticipantsForEachLine = DecideSeatArrangement(seats, UBound(participants, 1), UBound(participants, 1), stringToSkip, ByColumn, ToCenter)
+    maxParticipantsForEachLine = DecideSeatArrangement(seats, UBound(participants, 1), UBound(participants, 1), stringToSkip, ToCenter)
     
     ' Judging whether the dynamic array variable is assigned (-1 means "NOT assigned.").
     If (Not maxParticipantsForEachLine) = -1 Then
@@ -252,7 +252,6 @@ Private Function GetSeats( _
     
     Dim results() As Range
     ReDim results(1 To innerTo, 1 To outerTo)
-'    ReDim results(1 To chartVerticalLineCount, 1 To chartHorizontalLineCount)
     
     '
     Dim outerIndex As Long
@@ -334,7 +333,6 @@ Private Function DecideSeatArrangement( _
     participants_count As Long, _
     needed_seats_count As Long, _
     string_to_skip As String, _
-    seat_direction As enumSeatDirection, _
     seat_alignment As enumSeatAlignment _
     ) As Long()
     
@@ -349,7 +347,7 @@ Private Function DecideSeatArrangement( _
     End If
     
     Dim maxParticipantsForEachLine() As Long
-    maxParticipantsForEachLine = DevideNumberEqually(needed_seats_count, UBound(seats_range(), 2), UBound(seats_range(), 1))
+    maxParticipantsForEachLine = DevideNumberEqually(needed_seats_count, UBound(seats_range(), 2), UBound(seats_range(), 1), seat_alignment)
     
     Dim seatsToSkipCount As Long
     seatsToSkipCount = CountSeatsToSkip(seats_range, maxParticipantsForEachLine, string_to_skip)
@@ -357,13 +355,13 @@ Private Function DecideSeatArrangement( _
     If needed_seats_count - seatsToSkipCount >= participants_count Then
         DecideSeatArrangement = maxParticipantsForEachLine
     Else
-        DecideSeatArrangement = DecideSeatArrangement(seats_range, participants_count, participants_count + seatsToSkipCount, string_to_skip, ByColumn, ToCenter)
+        DecideSeatArrangement = DecideSeatArrangement(seats_range, participants_count, participants_count + seatsToSkipCount, string_to_skip, seat_alignment)
     End If
     
 End Function
 
 
-Private Function DevideNumberEqually(number As Long, devide_into As Long, limit As Long) As Long()
+Private Function DevideNumberEqually(number As Long, devide_into As Long, limit As Long, seat_alignment As enumSeatAlignment) As Long()
     
     Dim results() As Long
     ReDim results(1 To devide_into)
@@ -388,11 +386,30 @@ Private Function DevideNumberEqually(number As Long, devide_into As Long, limit 
             Exit Function
         End If
         
-        Dim numberToShift As Long
-        numberToShift = Int((devide_into - remainingNumber) / 2)
+        Dim numberToShift As Long, forFrom As Long, forTo As Long, forStep As Long
+        
+        Select Case seat_alignment
+            Case enumSeatAlignment.ToCenter
+                numberToShift = Int((devide_into - remainingNumber) / 2)
+                forFrom = 1 + numberToShift
+                forTo = remainingNumber + numberToShift
+                forStep = 1
+                
+            Case enumSeatAlignment.ToFirst
+                forFrom = 1
+                forTo = remainingNumber
+                forStep = 1
+                
+            Case enumSeatAlignment.ToLast
+                forFrom = devide_into
+                forTo = devide_into - remainingNumber + 1
+                forStep = -1
+                
+        End Select
         
         Dim j As Long
-        For j = 1 + numberToShift To remainingNumber + numberToShift
+'        For j = 1 + numberToShift To remainingNumber + numberToShift
+        For j = forFrom To forTo Step forStep
             results(j) = results(j) + 1
         Next j
         
@@ -459,7 +476,12 @@ Public Sub CallClearSeatingChart()
 End Sub
 
 
-Private Sub PutParticipantsToSeats(participants_array As Variant, seats_range() As Range, max_participants_for_each_line() As Long, string_to_skip As String)
+Private Sub PutParticipantsToSeats( _
+    participants_array As Variant, _
+    seats_range() As Range, _
+    max_participants_for_each_line() As Long, _
+    string_to_skip As String _
+    )
     
     Dim n As Long
     n = 1
