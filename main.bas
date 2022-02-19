@@ -1,4 +1,9 @@
 Attribute VB_Name = "main"
+' Suwarin version 1.0.0
+' https://github.com/taidalog/Suwarin
+' Copyright 2022 taidalog
+' Suwarin is licensed under the MIT License.
+
 Option Explicit
 
 Public Enum enumSearchDirection
