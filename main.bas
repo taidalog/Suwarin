@@ -90,7 +90,7 @@ Public Sub MakeSeatingChart()
     End If
     
     Dim seats() As Range
-    seats = GetSeats(topLeftSeatRange, seatingChartRange)
+    seats = GetSeats(topLeftSeatRange, seatingChartRange, BottomRight, ByColumn)
     
     ' Judging whether the dynamic array variable is assigned (-1 means "NOT assigned.").
     If (Not seats) = -1 Then
@@ -148,24 +148,32 @@ End Sub
 
 Private Function GetFirstBorderedCell(search_range As Range, search_direction As enumSearchDirection) As Range
     
-    Dim forFrom1 As Long, forTo1 As Long, forFrom2 As Long, forTo2 As Long
-    forFrom1 = 1
-    forTo1 = search_range.Columns.Count
-    forFrom2 = 1
-    forTo2 = search_range.Rows.Count
+    Dim outerTo As Long, innerTo As Long
+    
+    If search_direction = ByColumn Then
+        outerTo = search_range.Columns.Count
+        innerTo = search_range.Rows.Count
+    Else
+        outerTo = search_range.Rows.Count
+        innerTo = search_range.Columns.Count
+    End If
     
     Dim i As Long
-    For i = forFrom1 To forTo1
+    For i = 1 To outerTo
         Dim j As Long
-        For j = forFrom2 To forTo2
+        For j = 1 To innerTo
+            
             With search_range.Cells(j, i)
+                
                 If .Borders(xlEdgeTop).LineStyle <> xlNone Then
                     If .Borders(xlEdgeLeft).LineStyle <> xlNone Then
                         Set GetFirstBorderedCell = search_range.Cells(j, i)
                         Exit Function
                     End If
                 End If
+                
             End With
+            
         Next j
     Next i
     
@@ -218,31 +226,84 @@ Private Function GetSeatingChartRange(first_bordered_cell As Range) As Range
 End Function
 
 
-Private Function GetSeats(top_left_seat_range As Range, seating_chart_range As Range) As Range()
+Private Function GetSeats( _
+    top_left_seat_range As Range, _
+    seating_chart_range As Range, _
+    seat_start As enumSeatStart, _
+    seat_direction As enumSeatDirection _
+    ) As Range()
     
-    Dim seatHeight As Long
-    seatHeight = top_left_seat_range.Rows.Count
+    Dim chartHorizontalLineCount As Long
+    chartHorizontalLineCount = seating_chart_range.Rows.Count / top_left_seat_range.Rows.Count
     
-    Dim seatWidth As Long
-    seatWidth = top_left_seat_range.Columns.Count
+    Dim chartVerticalLineCount As Long
+    chartVerticalLineCount = seating_chart_range.Columns.Count / top_left_seat_range.Columns.Count
     
-    Dim chartRows As Long
-    chartRows = seating_chart_range.Rows.Count / seatHeight
+    '
+    Dim outerTo As Long, innerTo As Long
     
-    Dim chartColumns As Long
-    chartColumns = seating_chart_range.Columns.Count / seatWidth
-    
+    If seat_direction = ByColumn Then
+        outerTo = chartVerticalLineCount
+        innerTo = chartHorizontalLineCount
+    Else
+        outerTo = chartHorizontalLineCount
+        innerTo = chartVerticalLineCount
+    End If
     
     Dim results() As Range
-    ReDim results(1 To chartRows, 1 To chartColumns)
+    ReDim results(1 To innerTo, 1 To outerTo)
+'    ReDim results(1 To chartVerticalLineCount, 1 To chartHorizontalLineCount)
     
-    Dim y As Long
-    For y = 1 To chartColumns
-        Dim x As Long
-        For x = 1 To chartRows
-            Set results(x, y) = top_left_seat_range.Offset((x - 1) * 2, (y - 1) * 2)
-        Next x
-    Next y
+    '
+    Dim outerIndex As Long
+    For outerIndex = 1 To outerTo
+        Dim innerIndex As Long
+        For innerIndex = 1 To innerTo
+            
+            If seat_direction = ByColumn Then
+                
+                If seat_start = TopLeft Then
+                    Set results(innerIndex, outerIndex) = _
+                        top_left_seat_range.Offset((innerIndex - 1) * 2, (outerIndex - 1) * 2)
+                    
+                ElseIf seat_start = TopRight Then
+                    Set results(innerIndex, outerIndex) = _
+                        top_left_seat_range.Offset((innerIndex - 1) * 2, (chartVerticalLineCount - outerIndex) * 2)
+                    
+                ElseIf seat_start = BottomLeft Then
+                    Set results(innerIndex, outerIndex) = _
+                        top_left_seat_range.Offset((chartHorizontalLineCount - innerIndex) * 2, (outerIndex - 1) * 2)
+                    
+                ElseIf seat_start = BottomRight Then
+                    Set results(innerIndex, outerIndex) = _
+                        top_left_seat_range.Offset((chartHorizontalLineCount - innerIndex) * 2, (chartVerticalLineCount - outerIndex) * 2)
+                    
+                End If
+                
+            Else
+                
+                If seat_start = TopLeft Then
+                    Set results(innerIndex, outerIndex) = _
+                        top_left_seat_range.Offset((outerIndex - 1) * 2, (innerIndex - 1) * 2)
+                    
+                ElseIf seat_start = TopRight Then
+                    Set results(innerIndex, outerIndex) = _
+                        top_left_seat_range.Offset((chartHorizontalLineCount - outerIndex) * 2, (innerIndex - 1) * 2)
+                    
+                ElseIf seat_start = BottomLeft Then
+                    Set results(innerIndex, outerIndex) = _
+                        top_left_seat_range.Offset((outerIndex - 1) * 2, (chartVerticalLineCount - innerIndex) * 2)
+                    
+                ElseIf seat_start = BottomRight Then
+                    Set results(innerIndex, outerIndex) = _
+                        top_left_seat_range.Offset((chartHorizontalLineCount - outerIndex) * 2, (chartVerticalLineCount - innerIndex) * 2)
+                    
+                End If
+                
+            End If
+            
+        Next innerIndex
+    Next outerIndex
     
     GetSeats = results
     
@@ -384,7 +445,7 @@ Public Sub CallClearSeatingChart()
     Set seatingChartRange = GetSeatingChartRange(firstBorderedCell)
     
     Dim seats() As Range
-    seats = GetSeats(topLeftSeatRange, seatingChartRange)
+    seats = GetSeats(topLeftSeatRange, seatingChartRange, BottomLeft, ByColumn)
     
     Dim stringToSkip As String
     stringToSkip = "x"
