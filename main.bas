@@ -90,7 +90,7 @@ Public Sub MakeSeatingChart()
     End If
     
     Dim seats() As Range
-    seats = GetSeats(topLeftSeatRange, seatingChartRange, TopLeft, ByColumn)
+    seats = GetSeats(topLeftSeatRange, seatingChartRange, BottomLeft, ByColumn)
     
     ' Judging whether the dynamic array variable is assigned (-1 means "NOT assigned.").
     If (Not seats) = -1 Then
@@ -233,11 +233,17 @@ Private Function GetSeats( _
     seat_direction As enumSeatDirection _
     ) As Range()
     
+    Dim seatHeight As Long
+    seatHeight = top_left_seat_range.Rows.Count
+    
+    Dim seatWidth As Long
+    seatWidth = top_left_seat_range.Columns.Count
+    
     Dim chartHorizontalLineCount As Long
-    chartHorizontalLineCount = seating_chart_range.Rows.Count / top_left_seat_range.Rows.Count
+    chartHorizontalLineCount = seating_chart_range.Rows.Count / seatHeight
     
     Dim chartVerticalLineCount As Long
-    chartVerticalLineCount = seating_chart_range.Columns.Count / top_left_seat_range.Columns.Count
+    chartVerticalLineCount = seating_chart_range.Columns.Count / seatWidth
     
     '
     Dim outerTo As Long, innerTo As Long
@@ -263,19 +269,19 @@ Private Function GetSeats( _
                 
                 If seat_start = TopLeft Then
                     Set results(innerIndex, outerIndex) = _
-                        top_left_seat_range.Offset((innerIndex - 1) * 2, (outerIndex - 1) * 2)
+                        top_left_seat_range.Offset((innerIndex - 1) * seatHeight, (outerIndex - 1) * seatWidth)
                     
                 ElseIf seat_start = TopRight Then
                     Set results(innerIndex, outerIndex) = _
-                        top_left_seat_range.Offset((innerIndex - 1) * 2, (chartVerticalLineCount - outerIndex) * 2)
+                        top_left_seat_range.Offset((innerIndex - 1) * seatHeight, (chartVerticalLineCount - outerIndex) * seatWidth)
                     
                 ElseIf seat_start = BottomLeft Then
                     Set results(innerIndex, outerIndex) = _
-                        top_left_seat_range.Offset((chartHorizontalLineCount - innerIndex) * 2, (outerIndex - 1) * 2)
+                        top_left_seat_range.Offset((chartHorizontalLineCount - innerIndex) * seatHeight, (outerIndex - 1) * seatWidth)
                     
                 ElseIf seat_start = BottomRight Then
                     Set results(innerIndex, outerIndex) = _
-                        top_left_seat_range.Offset((chartHorizontalLineCount - innerIndex) * 2, (chartVerticalLineCount - outerIndex) * 2)
+                        top_left_seat_range.Offset((chartHorizontalLineCount - innerIndex) * seatHeight, (chartVerticalLineCount - outerIndex) * seatWidth)
                     
                 End If
                 
@@ -283,19 +289,19 @@ Private Function GetSeats( _
                 
                 If seat_start = TopLeft Then
                     Set results(innerIndex, outerIndex) = _
-                        top_left_seat_range.Offset((outerIndex - 1) * 2, (innerIndex - 1) * 2)
+                        top_left_seat_range.Offset((outerIndex - 1) * seatHeight, (innerIndex - 1) * seatWidth)
                     
                 ElseIf seat_start = TopRight Then
                     Set results(innerIndex, outerIndex) = _
-                        top_left_seat_range.Offset((chartHorizontalLineCount - outerIndex) * 2, (innerIndex - 1) * 2)
+                        top_left_seat_range.Offset((chartHorizontalLineCount - outerIndex) * seatHeight, (innerIndex - 1) * seatWidth)
                     
                 ElseIf seat_start = BottomLeft Then
                     Set results(innerIndex, outerIndex) = _
-                        top_left_seat_range.Offset((outerIndex - 1) * 2, (chartVerticalLineCount - innerIndex) * 2)
+                        top_left_seat_range.Offset((outerIndex - 1) * seatHeight, (chartVerticalLineCount - innerIndex) * seatWidth)
                     
                 ElseIf seat_start = BottomRight Then
                     Set results(innerIndex, outerIndex) = _
-                        top_left_seat_range.Offset((chartHorizontalLineCount - outerIndex) * 2, (chartVerticalLineCount - innerIndex) * 2)
+                        top_left_seat_range.Offset((chartHorizontalLineCount - outerIndex) * seatHeight, (chartVerticalLineCount - innerIndex) * seatWidth)
                     
                 End If
                 
