@@ -1,10 +1,12 @@
 # Suwarin
 
-Version 0.9.1
+Version 1.0.0
 
 ![demo](/images/suwarin.gif)
 
 [English README](README.md)
+
+[GitHub](https://github.com/taidalog/Suwarin)
 
 ## 目次
 
