@@ -2,8 +2,8 @@ Attribute VB_Name = "main"
 Option Explicit
 
 Public Enum enumSearchDirection
-    ByColumn
-    ByRow
+    SearchByColumn
+    SearchByRow
 End Enum
 
 Public Enum enumSeatStart
@@ -24,13 +24,14 @@ Public Enum enumSeatAlignment
     ToLast
 End Enum
 
+
 Public Sub MakeSeatingChart()
     ' main
     
     Dim ST As Double: ST = Timer
     
     Dim firstBorderedCell As Range
-    Set firstBorderedCell = GetFirstBorderedCell(ActiveSheet.UsedRange)
+    Set firstBorderedCell = GetFirstBorderedCell(ActiveSheet.UsedRange, SearchByColumn)
     
     If firstBorderedCell Is Nothing Then
 '        MsgBox "Format Error:" & vbCrLf & _
@@ -130,7 +131,7 @@ Public Sub MakeSeatingChart()
     stringToSkip = "x"
     
     Dim maxParticipantsForEachLine() As Long
-    maxParticipantsForEachLine = DecideSeatArrangement(seats, UBound(participants, 1), UBound(participants, 1), stringToSkip)
+    maxParticipantsForEachLine = DecideSeatArrangement(seats, UBound(participants, 1), UBound(participants, 1), stringToSkip, ByColumn, ToCenter)
     
     ' Judging whether the dynamic array variable is assigned (-1 means "NOT assigned.").
     If (Not maxParticipantsForEachLine) = -1 Then
@@ -145,7 +146,7 @@ Public Sub MakeSeatingChart()
 End Sub
 
 
-Private Function GetFirstBorderedCell(search_range As Range) As Range
+Private Function GetFirstBorderedCell(search_range As Range, search_direction As enumSearchDirection) As Range
     
     Dim forFrom1 As Long, forTo1 As Long, forFrom2 As Long, forTo2 As Long
     forFrom1 = 1
@@ -267,9 +268,16 @@ Private Function GetParticipants(seating_chart_range As Range) As Variant
 End Function
 
 
-Private Function DecideSeatArrangement(seats_range() As Range, number_of_participants As Long, number_of_needed_seats As Long, string_to_skip As String) As Long()
+Private Function DecideSeatArrangement( _
+    seats_range() As Range, _
+    participants_count As Long, _
+    needed_seats_count As Long, _
+    string_to_skip As String, _
+    seat_direction As enumSeatDirection, _
+    seat_alignment As enumSeatAlignment _
+    ) As Long()
     
-    If number_of_needed_seats > UBound(seats_range, 1) * UBound(seats_range, 2) Then
+    If needed_seats_count > UBound(seats_range, 1) * UBound(seats_range, 2) Then
 '        MsgBox "Capacity Error:" & vbCrLf & _
                "Number of needed seats exceeded existing seats." & vbCrLf & _
                "Expand the seating chart or reduce the number of '" & string_to_skip & "'."
@@ -280,15 +288,15 @@ Private Function DecideSeatArrangement(seats_range() As Range, number_of_partici
     End If
     
     Dim maxParticipantsForEachLine() As Long
-    maxParticipantsForEachLine = DevideNumberEqually(number_of_needed_seats, UBound(seats_range(), 2), UBound(seats_range(), 1))
+    maxParticipantsForEachLine = DevideNumberEqually(needed_seats_count, UBound(seats_range(), 2), UBound(seats_range(), 1))
     
     Dim seatsToSkipCount As Long
     seatsToSkipCount = CountSeatsToSkip(seats_range, maxParticipantsForEachLine, string_to_skip)
     
-    If number_of_needed_seats - seatsToSkipCount >= number_of_participants Then
+    If needed_seats_count - seatsToSkipCount >= participants_count Then
         DecideSeatArrangement = maxParticipantsForEachLine
     Else
-        DecideSeatArrangement = DecideSeatArrangement(seats_range, number_of_participants, number_of_participants + seatsToSkipCount, string_to_skip)
+        DecideSeatArrangement = DecideSeatArrangement(seats_range, participants_count, participants_count + seatsToSkipCount, string_to_skip, ByColumn, ToCenter)
     End If
     
 End Function
@@ -367,7 +375,7 @@ End Sub
 Public Sub CallClearSeatingChart()
     
     Dim firstBorderedCell As Range
-    Set firstBorderedCell = GetFirstBorderedCell(ActiveSheet.UsedRange)
+    Set firstBorderedCell = GetFirstBorderedCell(ActiveSheet.UsedRange, SearchByColumn)
     
     Dim topLeftSeatRange As Range
     Set topLeftSeatRange = GetTopLeftSeatRange(firstBorderedCell)
