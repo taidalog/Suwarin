@@ -1,6 +1,29 @@
 Attribute VB_Name = "main"
 Option Explicit
 
+Public Enum enumSearchDirection
+    ByColumn
+    ByRow
+End Enum
+
+Public Enum enumSeatStart
+    BottomLeft
+    BottomRight
+    TopLeft
+    TopRight
+End Enum
+
+Public Enum enumSeatDirection
+    ByColumn
+    ByRow
+End Enum
+
+Public Enum enumSeatAlignment
+    ToCenter
+    ToFirst
+    ToLast
+End Enum
+
 Public Sub MakeSeatingChart()
     ' main
     
