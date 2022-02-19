@@ -33,10 +33,24 @@ Public Sub CallMakeSeatingChart()
     Dim settingSeatAlignment As enumSeatAlignment
     Dim stringToSkip As String
     
+    ' The direction to search cells for the lop left corner of the seating chart
+    ' 座席の左上のセルを探す方向
     settingSearchDirection = SearchByColumn
+    
+    ' The direction of the line in the seating chart
+    ' 座席表の列の方向
     settingSeatDirection = ByColumn
+    
+    ' The position of the first seat in the chart
+    ' 座席表の一つ目の席の位置
     settingSeatStart = BottomLeft
+    
+    ' Which end to move remaining seats
+    ' 端数の座席を寄せる方向
     settingSeatAlignment = ToCenter
+    
+    ' The character or words to indicate seats to skip
+    ' 使用禁止席を示す文字や単語
     stringToSkip = "x"
     
     Call MakeSeatingChart(settingSearchDirection, settingSeatDirection, settingSeatStart, settingSeatAlignment, stringToSkip)
@@ -44,7 +58,7 @@ Public Sub CallMakeSeatingChart()
 End Sub
 
 
-Public Sub MakeSeatingChart( _
+Private Sub MakeSeatingChart( _
     search_direction As enumSearchDirection, _
     seat_direction As enumSeatDirection, _
     seat_start As enumSeatStart, _
@@ -560,7 +574,7 @@ Public Sub AddToContextMenu()
                 With .Item(i).Controls.Add(Type:=msoControlPopup, Temporary:=True)
                     .BeginGroup = True
 '                    .Caption = "&" & ThisWorkbook.Name
-                    .Caption = ThisWorkbook.Name & "(&" & Mid(ThisWorkbook.Name, 1, 1) & ")"
+                    .Caption = ThisWorkbook.Name & "(&S)"
                     
                     With .Controls.Add
 '                        .Caption = "&Make Seating Chart"
