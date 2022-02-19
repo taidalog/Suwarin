@@ -25,13 +25,39 @@ Public Enum enumSeatAlignment
 End Enum
 
 
-Public Sub MakeSeatingChart()
+Public Sub CallMakeSeatingChart()
+    
+    Dim settingSearchDirection As enumSearchDirection
+    Dim settingSeatDirection As enumSeatDirection
+    Dim settingSeatStart As enumSeatStart
+    Dim settingSeatAlignment As enumSeatAlignment
+    Dim stringToSkip As String
+    
+    settingSearchDirection = SearchByColumn
+    settingSeatDirection = ByColumn
+    settingSeatStart = BottomLeft
+    settingSeatAlignment = ToCenter
+    stringToSkip = "x"
+    
+    Call MakeSeatingChart(settingSearchDirection, settingSeatDirection, settingSeatStart, settingSeatAlignment, stringToSkip)
+    
+End Sub
+
+
+Public Sub MakeSeatingChart( _
+    search_direction As enumSearchDirection, _
+    seat_direction As enumSeatDirection, _
+    seat_start As enumSeatStart, _
+    seat_alignment As enumSeatAlignment, _
+    string_to_skip As String _
+    )
+    
     ' main
     
     Dim ST As Double: ST = Timer
     
     Dim firstBorderedCell As Range
-    Set firstBorderedCell = GetFirstBorderedCell(ActiveSheet.UsedRange, SearchByColumn)
+    Set firstBorderedCell = GetFirstBorderedCell(ActiveSheet.UsedRange, search_direction)
     
     If firstBorderedCell Is Nothing Then
 '        MsgBox "Format Error:" & vbCrLf & _
@@ -90,7 +116,7 @@ Public Sub MakeSeatingChart()
     End If
     
     Dim seats() As Range
-    seats = GetSeats(topLeftSeatRange, seatingChartRange, TopLeft, ByColumn)
+    seats = GetSeats(topLeftSeatRange, seatingChartRange, seat_start, seat_direction)
     
     ' Judging whether the dynamic array variable is assigned (-1 means "NOT assigned.").
     If (Not seats) = -1 Then
@@ -127,19 +153,16 @@ Public Sub MakeSeatingChart()
         Exit Sub
     End If
     
-    Dim stringToSkip As String
-    stringToSkip = "x"
-    
     Dim maxParticipantsForEachLine() As Long
-    maxParticipantsForEachLine = DecideSeatArrangement(seats, UBound(participants, 1), UBound(participants, 1), stringToSkip, ToCenter)
+    maxParticipantsForEachLine = DecideSeatArrangement(seats, UBound(participants, 1), UBound(participants, 1), string_to_skip, seat_alignment)
     
     ' Judging whether the dynamic array variable is assigned (-1 means "NOT assigned.").
     If (Not maxParticipantsForEachLine) = -1 Then
         Exit Sub
     End If
     
-    Call ClearSeatingChart(seats, stringToSkip, True)
-    Call PutParticipantsToSeats(participants, seats, maxParticipantsForEachLine, stringToSkip)
+    Call ClearSeatingChart(seats, string_to_skip, True)
+    Call PutParticipantsToSeats(participants, seats, maxParticipantsForEachLine, string_to_skip)
     
     Debug.Print Timer - ST
     
@@ -233,11 +256,17 @@ Private Function GetSeats( _
     seat_direction As enumSeatDirection _
     ) As Range()
     
+    Dim seatHeight As Long
+    seatHeight = top_left_seat_range.Rows.Count
+    
+    Dim seatWidth As Long
+    seatWidth = top_left_seat_range.Columns.Count
+    
     Dim chartHorizontalLineCount As Long
-    chartHorizontalLineCount = seating_chart_range.Rows.Count / top_left_seat_range.Rows.Count
+    chartHorizontalLineCount = seating_chart_range.Rows.Count / seatHeight
     
     Dim chartVerticalLineCount As Long
-    chartVerticalLineCount = seating_chart_range.Columns.Count / top_left_seat_range.Columns.Count
+    chartVerticalLineCount = seating_chart_range.Columns.Count / seatWidth
     
     '
     Dim outerTo As Long, innerTo As Long
@@ -263,19 +292,19 @@ Private Function GetSeats( _
                 
                 If seat_start = TopLeft Then
                     Set results(innerIndex, outerIndex) = _
-                        top_left_seat_range.Offset((innerIndex - 1) * 2, (outerIndex - 1) * 2)
+                        top_left_seat_range.Offset((innerIndex - 1) * seatHeight, (outerIndex - 1) * seatWidth)
                     
                 ElseIf seat_start = TopRight Then
                     Set results(innerIndex, outerIndex) = _
-                        top_left_seat_range.Offset((innerIndex - 1) * 2, (chartVerticalLineCount - outerIndex) * 2)
+                        top_left_seat_range.Offset((innerIndex - 1) * seatHeight, (chartVerticalLineCount - outerIndex) * seatWidth)
                     
                 ElseIf seat_start = BottomLeft Then
                     Set results(innerIndex, outerIndex) = _
-                        top_left_seat_range.Offset((chartHorizontalLineCount - innerIndex) * 2, (outerIndex - 1) * 2)
+                        top_left_seat_range.Offset((chartHorizontalLineCount - innerIndex) * seatHeight, (outerIndex - 1) * seatWidth)
                     
                 ElseIf seat_start = BottomRight Then
                     Set results(innerIndex, outerIndex) = _
-                        top_left_seat_range.Offset((chartHorizontalLineCount - innerIndex) * 2, (chartVerticalLineCount - outerIndex) * 2)
+                        top_left_seat_range.Offset((chartHorizontalLineCount - innerIndex) * seatHeight, (chartVerticalLineCount - outerIndex) * seatWidth)
                     
                 End If
                 
@@ -283,19 +312,19 @@ Private Function GetSeats( _
                 
                 If seat_start = TopLeft Then
                     Set results(innerIndex, outerIndex) = _
-                        top_left_seat_range.Offset((outerIndex - 1) * 2, (innerIndex - 1) * 2)
+                        top_left_seat_range.Offset((outerIndex - 1) * seatHeight, (innerIndex - 1) * seatWidth)
                     
                 ElseIf seat_start = TopRight Then
                     Set results(innerIndex, outerIndex) = _
-                        top_left_seat_range.Offset((chartHorizontalLineCount - outerIndex) * 2, (innerIndex - 1) * 2)
+                        top_left_seat_range.Offset((chartHorizontalLineCount - outerIndex) * seatHeight, (innerIndex - 1) * seatWidth)
                     
                 ElseIf seat_start = BottomLeft Then
                     Set results(innerIndex, outerIndex) = _
-                        top_left_seat_range.Offset((outerIndex - 1) * 2, (chartVerticalLineCount - innerIndex) * 2)
+                        top_left_seat_range.Offset((outerIndex - 1) * seatHeight, (chartVerticalLineCount - innerIndex) * seatWidth)
                     
                 ElseIf seat_start = BottomRight Then
                     Set results(innerIndex, outerIndex) = _
-                        top_left_seat_range.Offset((chartHorizontalLineCount - outerIndex) * 2, (chartVerticalLineCount - innerIndex) * 2)
+                        top_left_seat_range.Offset((chartHorizontalLineCount - outerIndex) * seatHeight, (chartVerticalLineCount - innerIndex) * seatWidth)
                     
                 End If
                 
@@ -408,7 +437,6 @@ Private Function DevideNumberEqually(number As Long, devide_into As Long, limit 
         End Select
         
         Dim j As Long
-'        For j = 1 + numberToShift To remainingNumber + numberToShift
         For j = forFrom To forTo Step forStep
             results(j) = results(j) + 1
         Next j
@@ -496,9 +524,7 @@ Private Sub PutParticipantsToSeats( _
                     n = n + 1
                 End If
             End With
-'            If n > UBound(participants_array, 1) Then Exit For
         Next i
-'        If n > UBound(participants_array, 1) Then Exit For
     Next j
     
 End Sub
@@ -539,7 +565,7 @@ Public Sub AddToContextMenu()
                     With .Controls.Add
 '                        .Caption = "&Make Seating Chart"
                         .Caption = "ç¿ê»ï\ÇçÏê¨Ç∑ÇÈ(&M)"
-                        .OnAction = ThisWorkbook.Name & "!" & "MakeSeatingChart"
+                        .OnAction = ThisWorkbook.Name & "!" & "CallMakeSeatingChart"
                     End With
                     
                     With .Controls.Add
