@@ -42,16 +42,16 @@ Public Sub CallMakeSeatingChart()
     ' 座席の左上のセルを探す方向
     settingSearchDirection = SearchByColumn
     
-    ' The direction of the line in the seating chart
-    ' 座席表の列の方向
-    settingSeatDirection = ByColumn
-    
     ' The position of the first seat in the chart
     ' 座席表の一つ目の席の位置
     settingSeatStart = BottomLeft
     
-    ' Which end to move remaining seats
-    ' 端数の座席を寄せる方向
+    ' The direction of the line in the seating chart
+    ' 座席表の列の方向
+    settingSeatDirection = ByColumn
+    
+    ' Which end to move remaining seats in the last line
+    ' 最後列の端数の座席を寄せる方向
     settingSeatAlignment = ToCenter
     
     ' The character or words to indicate seats to skip
@@ -173,7 +173,7 @@ Private Sub MakeSeatingChart( _
     End If
     
     Dim maxParticipantsForEachLine() As Long
-    maxParticipantsForEachLine = DecideSeatArrangement(seats, UBound(participants, 1), UBound(participants, 1), string_to_skip, seat_alignment)
+    maxParticipantsForEachLine = DecideSeatArrangement(seats, UBound(participants, 1), UBound(participants, 1), string_to_skip, seat_direction, seat_alignment)
     
     ' Judging whether the dynamic array variable is assigned (-1 means "NOT assigned.").
     If (Not maxParticipantsForEachLine) = -1 Then
@@ -181,7 +181,7 @@ Private Sub MakeSeatingChart( _
     End If
     
     Call ClearSeatingChart(seats, string_to_skip, True)
-    Call PutParticipantsToSeats(participants, seats, maxParticipantsForEachLine, string_to_skip)
+    Call PutParticipantsToSeats(participants, seats, maxParticipantsForEachLine, seat_direction, string_to_skip)
     
     Debug.Print Timer - ST
     
@@ -299,7 +299,7 @@ Private Function GetSeats( _
     End If
     
     Dim results() As Range
-    ReDim results(1 To innerTo, 1 To outerTo)
+    ReDim results(1 To chartHorizontalLineCount, 1 To chartVerticalLineCount)
     
     '
     Dim outerIndex As Long
@@ -330,19 +330,19 @@ Private Function GetSeats( _
             Else
                 
                 If seat_start = TopLeft Then
-                    Set results(innerIndex, outerIndex) = _
+                    Set results(outerIndex, innerIndex) = _
                         top_left_seat_range.Offset((outerIndex - 1) * seatHeight, (innerIndex - 1) * seatWidth)
                     
                 ElseIf seat_start = TopRight Then
-                    Set results(innerIndex, outerIndex) = _
-                        top_left_seat_range.Offset((chartHorizontalLineCount - outerIndex) * seatHeight, (innerIndex - 1) * seatWidth)
-                    
-                ElseIf seat_start = BottomLeft Then
-                    Set results(innerIndex, outerIndex) = _
+                    Set results(outerIndex, innerIndex) = _
                         top_left_seat_range.Offset((outerIndex - 1) * seatHeight, (chartVerticalLineCount - innerIndex) * seatWidth)
                     
+                ElseIf seat_start = BottomLeft Then
+                    Set results(outerIndex, innerIndex) = _
+                        top_left_seat_range.Offset((chartHorizontalLineCount - outerIndex) * seatHeight, (innerIndex - 1) * seatWidth)
+                    
                 ElseIf seat_start = BottomRight Then
-                    Set results(innerIndex, outerIndex) = _
+                    Set results(outerIndex, innerIndex) = _
                         top_left_seat_range.Offset((chartHorizontalLineCount - outerIndex) * seatHeight, (chartVerticalLineCount - innerIndex) * seatWidth)
                     
                 End If
@@ -381,6 +381,7 @@ Private Function DecideSeatArrangement( _
     participants_count As Long, _
     needed_seats_count As Long, _
     string_to_skip As String, _
+    seat_direction As enumSeatDirection, _
     seat_alignment As enumSeatAlignment _
     ) As Long()
     
@@ -394,8 +395,18 @@ Private Function DecideSeatArrangement( _
         Exit Function
     End If
     
+    Dim lineCount As Long, limit As Long
+    
+    If seat_direction = ByColumn Then
+        lineCount = UBound(seats_range(), 2)
+        limit = UBound(seats_range(), 1)
+    Else
+        lineCount = UBound(seats_range(), 1)
+        limit = UBound(seats_range(), 2)
+    End If
+    
     Dim maxParticipantsForEachLine() As Long
-    maxParticipantsForEachLine = DevideNumberEqually(needed_seats_count, UBound(seats_range(), 2), UBound(seats_range(), 1), seat_alignment)
+    maxParticipantsForEachLine = DevideNumberEqually(needed_seats_count, lineCount, limit, seat_alignment)
     
     Dim seatsToSkipCount As Long
     seatsToSkipCount = CountSeatsToSkip(seats_range, maxParticipantsForEachLine, string_to_skip)
@@ -403,7 +414,7 @@ Private Function DecideSeatArrangement( _
     If needed_seats_count - seatsToSkipCount >= participants_count Then
         DecideSeatArrangement = maxParticipantsForEachLine
     Else
-        DecideSeatArrangement = DecideSeatArrangement(seats_range, participants_count, participants_count + seatsToSkipCount, string_to_skip, seat_alignment)
+        DecideSeatArrangement = DecideSeatArrangement(seats_range, participants_count, participants_count + seatsToSkipCount, string_to_skip, seat_direction, seat_alignment)
     End If
     
 End Function
@@ -527,22 +538,41 @@ Private Sub PutParticipantsToSeats( _
     participants_array As Variant, _
     seats_range() As Range, _
     max_participants_for_each_line() As Long, _
+    seat_direction As enumSeatDirection, _
     string_to_skip As String _
     )
     
     Dim n As Long
     n = 1
     
+    Dim outerTo As Long
+    
+    If seat_direction = ByColumn Then
+        outerTo = UBound(seats_range, 2)
+    Else
+        outerTo = UBound(seats_range, 1)
+    End If
+    
     Dim j As Long
-    For j = 1 To UBound(seats_range, 2)
+    For j = 1 To outerTo
         Dim i As Long
         For i = 1 To max_participants_for_each_line(j)
-            With seats_range(i, j).Cells(1, 1)
+            
+            Dim targetSeat As Range
+            
+            If seat_direction = ByColumn Then
+                Set targetSeat = seats_range(i, j)
+            Else
+                Set targetSeat = seats_range(j, i)
+            End If
+            
+            With targetSeat.Cells(1, 1)
                 If .Value <> string_to_skip Then
                     .Value = participants_array(n, 1)
                     n = n + 1
                 End If
             End With
+            
         Next i
     Next j
     
