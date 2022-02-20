@@ -42,16 +42,16 @@ Public Sub CallMakeSeatingChart()
     ' 座席の左上のセルを探す方向
     settingSearchDirection = SearchByColumn
     
-    ' The direction of the line in the seating chart
-    ' 座席表の列の方向
-    settingSeatDirection = ByColumn
-    
     ' The position of the first seat in the chart
     ' 座席表の一つ目の席の位置
     settingSeatStart = BottomLeft
     
-    ' Which end to move remaining seats
-    ' 端数の座席を寄せる方向
+    ' The direction of the line in the seating chart
+    ' 座席表の列の方向
+    settingSeatDirection = ByColumn
+    
+    ' Which end to move remaining seats in the last line
+    ' 最後列の端数の座席を寄せる方向
     settingSeatAlignment = ToCenter
     
     ' The character or words to indicate seats to skip
