@@ -135,33 +135,21 @@ Excel ファイル上で座席表を作成するマクロです。**席替え用
 
 ### マクロを追加する
 
-以降の操作をするにあたり、ファイル名の拡張子を表示しておきたいと思います。適当なフォルダを開いて、以下の場所にチェックを入れてください。
+以下の手順で作業してください。
 
-[表示] タブ > [表示/非表示] グループ > [ファイル名拡張子]
+以下の記事を参考にしてください。  
+https://taidalog.hatenablog.com/entry/2022/05/05/100000
 
-![拡張子を表示する](/images/ja/suwarin18.png)
-
-拡張子を表示できたら、以下の手順で作業してください。
-
-1. https://github.com/taidalog/Suwarin/releases から最新版の「Source code (zip) 」をダウンロードする
-1. ダウンロードした ZIP ファイルを展開（解凍）する
-1. 「[座席表ファイルの作り方](#%e5%ba%a7%e5%b8%ad%e8%a1%a8%e3%83%95%e3%82%a1%e3%82%a4%e3%83%ab%e3%81%ae%e4%bd%9c%e3%82%8a%e6%96%b9)」で用意した座席表の Excel ファイルを開く
-1. ZIP ファイルを展開（解凍）して手に入れた `main.bas` を、以下の記事の手順で座席表ファイルにインポートする  
-    <span style="color: #ff0000">※記事内の「[開発] タブ > [Visual Basic]」の部分は、「`Alt + F11` を押す」に読み替えてください</span>  
-    https://lilia-study.com/excel/excel-vba/import.html
-1. 4 で開いたマクロの編集画面 (VBE) で、`ThisWorkbook` モジュールをダブルクリックして開く  
-    ![ThisWorkbook モジュールを開く](/images/ja/suwarin19.png)
-1. `ThisWorkbook` モジュールに以下のコードをコピーして貼り付ける  
-    すでに何かコードが入っていた場合は、その下に貼り付ければいいはずです
+1. https://github.com/taidalog/Suwarin/releases から最新版の "Source code (zip)" をダウンロードする
+1. 「[座席表ファイルの作り方](#%e5%ba%a7%e5%b8%ad%e8%a1%a8%e3%83%95%e3%82%a1%e3%82%a4%e3%83%ab%e3%81%ae%e4%bd%9c%e3%82%8a%e6%96%b9)」で用意した座席表の Excel ファイルに、ダウンロードした `main.bas` をインポートする
+1. 座席表ファイルの `ThisWorkbook` モジュールに以下のコードをコピーして貼り付ける  
     ```
     Private Sub Workbook_Open()
         Call AddToContextMenu
     End Sub
     ```
-    ![ThisWorkbook モジュールにコードを追加](/images/ja/suwarin20.png)
-1. 座席表ファイルを `.xlsm` 形式で「名前を付けて保存」する  
-    ![.xlsm 形式で「名前を付けて保存」](/images/ja/suwarin21.png)
-1. 始めに開いた `.xlsx` のファイルを閉じて、新しく保存した `.xlsm` の方を開く  
+1. 座席表ファイルを「Excel マクロ有効ブック (*.xlsm)」形式で「名前を付けて保存」する  
+1. ファイルを閉じて、新しく保存した `.xlsm` の方を開く  
     今後は新しい方 (`.xlsm`) を使ってください
 
 コンテキストメニュー（右クリックメニュー）の一番下辺りに、座席表ファイルと同じ名前の項目があれば設定完了です。
