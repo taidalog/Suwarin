@@ -2,7 +2,7 @@
 
 Version 1.0.1
 
-![demo](/images/suwarin.gif)
+![demo](https://github.com/taidalog/Suwarin/blob/images/images/suwarin.gif)
 
 [Japanese README](README.ja.md)
 
@@ -55,7 +55,7 @@ The range of the seating chart range and each seat are specified by the ruled li
 
 1. Draw the ruled lines to make a seating chart
 1. Enter participants into the cells two cells away from the top right cell of the seating chart
-![layout](/images/en/suwarin01.png)
+![layout](https://github.com/taidalog/Suwarin/blob/images/images/en/suwarin01.png)
 1. Right click on a cell (anywhere) and click a buttom in the menu
 
 
@@ -63,16 +63,16 @@ The range of the seating chart range and each seat are specified by the ruled li
 
 - The range of the seating chart range and each seat are specified by the ruled line instead of cell address. Make sure that the lines are within the rules below:
     - Draw a ruled line on the outer frame of the seating chart without interruption.
-    ![About ruled lines](/images/en/suwarin02.png)
+    ![About ruled lines](https://github.com/taidalog/Suwarin/blob/images/images/en/suwarin02.png)
     - Do not draw extra ruled lines beyond the range of the seating chart.
-    ![About ruled lines](/images/en/suwarin03.png)
+    ![About ruled lines](https://github.com/taidalog/Suwarin/blob/images/images/en/suwarin03.png)
     - Separate each seat with a ruled line without interruption.
-    ![About ruled lines](/images/en/suwarin04.png)
+    ![About ruled lines](https://github.com/taidalog/Suwarin/blob/images/images/en/suwarin04.png)
     - Do not draw a ruled line inside each seat.
     - Make the number of rows and columns of each seat the same.
-    ![About ruled lines](/images/en/suwarin05.png)
+    ![About ruled lines](https://github.com/taidalog/Suwarin/blob/images/images/en/suwarin05.png)
 - The range to enter the participants into is designated. The top of the range is two cells away from the top right cell of the seating chart. If the chart range is `B3:M16`, the top right cell is `L3`, so enter the participants into `O3`, `O4`, `O5` ....  
-![About cells to enter participants](/images/en/suwarin01.png)
+![About cells to enter participants](https://github.com/taidalog/Suwarin/blob/images/images/en/suwarin01.png)
 - Each participant will be entered into the top left cell of each seat. Nothing will be done to the other cells. You can enter functions.
 - Make sure that only one seating chart exists on a worksheet.
 
