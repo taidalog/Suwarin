@@ -1,6 +1,6 @@
 # Suwarin
 
-Version 1.0.2
+Version 1.0.3
 
 ![demo](https://github.com/taidalog/Suwarin/blob/images/images/suwarin.gif)
 
